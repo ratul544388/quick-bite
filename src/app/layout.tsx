@@ -25,7 +25,7 @@ export default async function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={cn(inter.className)}>
+        <body className={cn(inter.className, 'bg-neutral-100')}>
           <QueryProvider>
             <ModalProvider />
             <ToastProvider />

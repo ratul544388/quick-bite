@@ -32,7 +32,7 @@ export function UserButton({ currentUser }: { currentUser: User | null }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="h-fit w-fit p-2 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0"
+          className="h-fit w-fit p-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0"
           variant="ghost"
         >
           <UserAvatar

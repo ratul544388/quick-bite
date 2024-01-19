@@ -28,7 +28,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useTransition } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
-import { updateShippingAddress } from "@/actions/shipping-cart-action";
+import { updateShippingAddress } from "@/actions/shipping-address-action";
 
 const AddressModal = () => {
   const { isOpen, type, data, onClose } = useModal();

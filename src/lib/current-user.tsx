@@ -18,20 +18,6 @@ export async function getCurrentUser() {
           food: true,
         },
       },
-      reviews: {
-        include: {
-          food: true,
-        },
-      },
-      orders: {
-        include: {
-          orderItems: {
-            include: {
-              food: true,
-            },
-          },
-        },
-      },
     },
   });
 
