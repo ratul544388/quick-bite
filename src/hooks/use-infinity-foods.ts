@@ -27,6 +27,7 @@ export const useInfinityFoods = ({
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    isRefetching,
     status,
     refetch,
   } = useInfiniteQuery({
@@ -67,6 +68,7 @@ export const useInfinityFoods = ({
     hasNextPage,
     isFetchingNextPage,
     status,
+    isRefetching,
     isFetching,
     refetch,
   };

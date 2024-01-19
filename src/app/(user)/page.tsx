@@ -25,7 +25,7 @@ export default async function Home({
   return (
     <div>
       <MaxWidthWrapper className="flex flex-col gap-16 mt-5">
-        <div className="flex lg:flex-row justify-between flex-col items-center gap-8">
+        <div className="flex lg:flex-row justify-between flex-col items-center gap-8 bg-gradient-to-r from-red-300/30 to-red-500/40 p-6 rounded-2xl">
           <div className="flex flex-col items-center gap-3">
             <Badge variant="secondary" className="bg-slate-200">
               Quick delivery

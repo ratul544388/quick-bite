@@ -22,7 +22,7 @@ interface FoodSliderProps {
 
 export const FoodSlider = ({ label, currentUser, type, queryKey }: FoodSliderProps) => {
   const { data, isPending } = useQuery({
-    queryKey: [type],
+    queryKey: [queryKey],
     queryFn: async () => {
       const res = await getFoods({ type });
       return res;

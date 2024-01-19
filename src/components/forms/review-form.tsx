@@ -20,6 +20,7 @@ import * as z from "zod";
 import { Star } from "../star";
 import { Textarea } from "../ui/textarea";
 import { useRouter } from "next/navigation";
+import { InvalidateQueryFilters, useQueryClient } from "@tanstack/react-query";
 
 interface ReviewFormProps {
   food: Food;
@@ -30,6 +31,7 @@ interface ReviewFormProps {
 export const ReviewForm = ({ food, review, onCancel }: ReviewFormProps) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof ReviewSchema>>({
     resolver: zodResolver(ReviewSchema),
     defaultValues: {
@@ -46,6 +48,7 @@ export const ReviewForm = ({ food, review, onCancel }: ReviewFormProps) => {
             if (success) {
               onCancel?.();
               toast.success(success);
+              queryClient.invalidateQueries(["similer-food"] as InvalidateQueryFilters)
               router.refresh();
             } else if (error) {
               toast.error(error);
@@ -76,7 +79,7 @@ export const ReviewForm = ({ food, review, onCancel }: ReviewFormProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col bg-background p-3 rounded-lg shadow-lg">
         <div className="py-4 border border-b-0 rounded-lg flex items-center justify-center">
           <Star
             value={form.getValues("star")}

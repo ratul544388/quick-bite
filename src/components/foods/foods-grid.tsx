@@ -20,15 +20,21 @@ export const FoodsGrid: React.FC<FoodsGridProps> = ({
   q,
 }) => {
   const queryKey = ["menu", category as string, q as string];
-  const { foods, hasNextPage, ref, status } = useInfinityFoods({
+  const { foods, hasNextPage, ref, status, isRefetching } = useInfinityFoods({
     initialFoods,
     category,
     q,
     queryKey,
   });
 
-  if (status === "pending") {
-    return <Loader />;
+  if (status === "pending" || isRefetching) {
+    return (
+      <div className="flex items-center gap-3">
+        {Array.from({ length: 7 }).map((_, index) => (
+          <FoodCard.Skeleton key={index} />
+        ))}
+      </div>
+    );
   }
 
   if (status === "error") {
