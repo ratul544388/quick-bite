@@ -15,7 +15,7 @@ export const useInfinityFoods = ({
   q?: string;
   foodId?: string;
   initialFoods: InitialFoods;
-  queryKey: string;
+  queryKey: string[];
 }) => {
   const { inView, ref } = useInView();
 
@@ -30,7 +30,7 @@ export const useInfinityFoods = ({
     status,
     refetch,
   } = useInfiniteQuery({
-    queryKey: [queryKey],
+    queryKey,
     //@ts-ignore;
     queryFn: async ({ pageParam = undefined }) => {
       const response = await getInfinityFoods({
@@ -58,10 +58,6 @@ export const useInfinityFoods = ({
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
-
-  useEffect(() => {
-    refetch();
-  }, [category, refetch]);
 
   const foods = data?.pages.flatMap((page) => page.items);
 

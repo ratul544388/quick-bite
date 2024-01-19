@@ -1,6 +1,6 @@
 import { getInfinityFoods } from "@/actions/food-action";
 import { Categories } from "@/components/categories";
-import FoodsGrid from "@/components/foods/foods-grid";
+import { FoodsGrid } from "@/components/foods/foods-grid";
 import { MaxWidthWrapper } from "@/components/max-width-wrapper";
 import { getCurrentUser } from "@/lib/current-user";
 
@@ -17,12 +17,11 @@ const Page = async ({
 
   return (
     <MaxWidthWrapper className="space-y-2">
-      <Categories category={category}/>
+      <Categories category={category} />
       <FoodsGrid
         initialFoods={initialFoods}
         currentUser={currentUser}
         category={category}
-        queryKey="menu"
       />
     </MaxWidthWrapper>
   );

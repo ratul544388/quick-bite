@@ -13,11 +13,12 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import toast from "react-hot-toast";
 import { BsCart, BsFillCartCheckFill } from "react-icons/bs";
+import { Skeleton } from "../ui/skeleton";
 
 interface FoodCardProps {
   food: Food;
   currentUser: FullUser;
-  queryKey?: string;
+  queryKey: string[];
   className?: string;
 }
 
@@ -44,7 +45,7 @@ export const FoodCard = ({
         if (success) {
           toast.success(success);
           queryClient.invalidateQueries([
-            queryKey,
+            ...queryKey,
             "cart",
           ] as InvalidateQueryFilters);
           router.refresh();
@@ -63,7 +64,7 @@ export const FoodCard = ({
         if (success) {
           toast.success(success);
           queryClient.invalidateQueries([
-            queryKey,
+            ...queryKey,
             "cart",
           ] as InvalidateQueryFilters);
           router.refresh();
@@ -85,10 +86,9 @@ export const FoodCard = ({
     >
       <Photo photo={food.photo} className="min-w-full" />
       <div className="flex flex-col px-3">
-        <h1 className="font-semibold capitalize mt-1 line-clamp-2">
+        <h1 className="font-semibold capitalize mt-1 line-clamp-2 h-10">
           {food.name}
         </h1>
-
         <Star value={food.avgRating} size={24} viewOnly />
         <div className="flex items-center justify-between">
           <h1 className="font-bold text-base text-primary">${food.price}</h1>
@@ -113,18 +113,19 @@ export const FoodCard = ({
   );
 };
 
-// FoodCard.Skeleton = function FoodCardSkeleton() {
-//   return (
-//     <div className="min-w-[180px] w-full border rounded-xl overflow-hidden">
-//       <Skeleton className="w-full aspect-[6/5]" />
-//       <div className="w-full h-full p-3 space-y-3">
-//         <Skeleton className="w-full h-8" />
-//         <Skeleton className="w-1/2 h-6 mt-2" />
-//         <div className="flex justify-between">
-//           <Skeleton className="h-8 w-12" />
-//           <Skeleton className="h-8 w-8" />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
+FoodCard.Skeleton = function FoodCardSkeleton() {
+  return (
+    <div className="min-w-[175px]">
+      <Skeleton className="w-full aspect-[6/5]" />
+      <div className="p-3 space-y-1.5">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-1/2" />
+        <Skeleton className="h-4 w-3/4" />
+        <div className="flex items-center justify-between">
+          <Skeleton className="h-4 w-12" />
+          <Skeleton className="h-8 w-8" />
+        </div>
+      </div>
+    </div>
+  );
+};

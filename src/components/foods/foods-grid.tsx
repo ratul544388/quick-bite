@@ -11,23 +11,21 @@ interface FoodsGridProps {
   category?: string;
   q?: string;
   initialFoods: InitialFoods;
-  queryKey: string;
 }
 
-const FoodsGrid: React.FC<FoodsGridProps> = ({
+export const FoodsGrid: React.FC<FoodsGridProps> = ({
   initialFoods,
   currentUser,
   category,
   q,
-  queryKey,
 }) => {
-  const { foods, hasNextPage, ref, status, isFetchingNextPage } =
-    useInfinityFoods({
-      initialFoods,
-      category,
-      q,
-      queryKey,
-    });
+  const queryKey = ["menu", category as string, q as string];
+  const { foods, hasNextPage, ref, status } = useInfinityFoods({
+    initialFoods,
+    category,
+    q,
+    queryKey,
+  });
 
   if (status === "pending") {
     return <Loader />;
@@ -59,12 +57,10 @@ const FoodsGrid: React.FC<FoodsGridProps> = ({
         <PulseLoader />
       ) : (
         <p className="text-center text-muted-foreground text-sm">
-          No More page food found
+          No More food found
         </p>
       )}
       <div ref={ref} />
     </div>
   );
 };
-
-export default FoodsGrid;

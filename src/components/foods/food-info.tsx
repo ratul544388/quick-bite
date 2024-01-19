@@ -133,9 +133,8 @@ const FoodInfo: React.FC<FoodInfoProps> = ({
       </div>
       <FoodSlider
         currentUser={currentUser}
-        queryKey="similar"
         label="Similar cuisines"
-        foods={similarFoods}
+        queryKey={["similer-food"]}
       />
       <FoodReviews food={food} currentUser={currentUser} />
     </div>

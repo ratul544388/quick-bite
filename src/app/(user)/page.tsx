@@ -22,8 +22,6 @@ export default async function Home({
     category = category.toUpperCase();
   }
 
-  const popularFoods = await getFoods({ type: "POPULAR" });
-  const topRatedFoods = await getFoods({ type: "TOP_RATED" });
   return (
     <div>
       <MaxWidthWrapper className="flex flex-col gap-16 mt-5">
@@ -57,16 +55,16 @@ export default async function Home({
           <Image src="/images/hero.png" alt="hero" width={500} height={500} />
         </div>
         <FoodSlider
+          queryKey={["popular"]}
           label="Most Popular"
           currentUser={currentUser}
-          queryKey="popular"
-          foods={popularFoods}
+          type="POPULAR"
         />
         <FoodSlider
-          queryKey="top_rated"
+          queryKey={["top-rated"]}
           label="Top Rated"
           currentUser={currentUser}
-          foods={topRatedFoods}
+          type="TOP_RATED"
         />
       </MaxWidthWrapper>
       <Footer />

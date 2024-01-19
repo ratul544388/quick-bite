@@ -5,17 +5,17 @@ export type FullUser =
       cartItems: (CartItem & {
         food: Food;
       })[];
+      orders: (Order & {
+        orderItems: (OrderItem & {
+          food: Food;
+        })[];
+      })[];
     })
   | null;
 
 export type FullFood = Food & {
   reviews: (Review & {
     user: User;
-  })[];
-  orderItems: (OrderItem & {
-    order: Order & {
-      user: User;
-    };
   })[];
 };
 

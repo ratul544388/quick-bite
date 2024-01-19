@@ -13,6 +13,7 @@ import { EditIcon, Trash } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
 import { FullFood, FullUser } from "@/types";
 import { UserAvatar } from "../user-avatar";
+import { foodColumns } from "../data-tables/columns/food-columns";
 
 const formSchema = z.object({
   star: z
@@ -37,11 +38,8 @@ const FoodReviews: React.FC<FoodReviewsProps> = ({ food, currentUser }) => {
     (review) => review.userId === currentUser?.id
   );
 
-  const hasPurchased = food.orderItems.some(
-    (item) =>
-      item.order.userId === currentUser?.id &&
-      (item.order.status === "DELIVERY_PENDING" ||
-        item.order.status === "DELIVERED")
+  const hasPurchased = currentUser?.orders.some((order) =>
+    order.orderItems.some((item) => item.foodId === food.id)
   );
 
   return (

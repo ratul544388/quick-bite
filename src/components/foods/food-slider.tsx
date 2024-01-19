@@ -1,27 +1,47 @@
 "use client";
 
+import { FoodType, getFoods } from "@/actions/food-action";
 import { FoodCard } from "@/components/foods/food-card";
 import { FullUser } from "@/types";
 import { Food, User } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Skeleton } from "../ui/skeleton";
 
 interface FoodSliderProps {
-  queryKey: string;
   label: string;
   currentUser: FullUser;
-  foods: Food[];
+  type?: FoodType;
+  queryKey: string[]
 }
 
-export const FoodSlider = ({
-  label,
-  currentUser,
-  foods,
-}: FoodSliderProps) => {
+export const FoodSlider = ({ label, currentUser, type, queryKey }: FoodSliderProps) => {
+  const { data, isPending } = useQuery({
+    queryKey: [type],
+    queryFn: async () => {
+      const res = await getFoods({ type });
+      return res;
+    },
+  });
+
+  if (isPending) {
+    return (
+      <div className="space-y-3 w-full p-3 rounded-xl bg-background overflow-hidden">
+        <Skeleton className="h-8 w-32" />
+        <div className="flex gap-3">
+          {Array.from({ length: 7 }).map((_, index) => (
+            <FoodCard.Skeleton key={index} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full space-y-2 overflow-hidden p-3 bg-background rounded-xl shadow-lg">
       <h3 className="text-2xl font-bold ml-2 text-primary">{label}</h3>
@@ -49,12 +69,13 @@ export const FoodSlider = ({
           },
         }}
       >
-        {foods.map((food) => (
+        {data?.map((food) => (
           <div key={food.id} className="flex items-center">
             <SwiperSlide className="p-1.5">
               <FoodCard
                 currentUser={currentUser}
                 food={food}
+                queryKey={queryKey}
               />
             </SwiperSlide>
           </div>

@@ -56,11 +56,10 @@ export async function createReview({
       return { error: "Food not found" };
     }
 
-    const isPurchased = food.orderItems.some(
-      (item) =>
-        item.order.userId === currentUser.id &&
-        (item.order.status === "DELIVERED" ||
-          item.order.status === "DELIVERY_PENDING")
+    const isPurchased = currentUser.orders.some(
+      (order) =>
+        order.orderItems.some((item) => item.foodId === foodId) &&
+        (order.status === "DELIVERED" || order.status === "DELIVERY_PENDING")
     );
 
     if (!isPurchased) {
