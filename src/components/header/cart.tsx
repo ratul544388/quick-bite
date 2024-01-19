@@ -122,10 +122,7 @@ export const Cart = ({ currentUser }: CartProps) => {
           )}
           <ScrollArea className="flex flex-col  max-h-[75vh]">
             {data?.map((item) => (
-              <SingleCart
-                key={item.id}
-                cartItem={item}
-              />
+              <SingleCart key={item.id} cartItem={item} />
             ))}
           </ScrollArea>
         </div>

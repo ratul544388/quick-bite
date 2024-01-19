@@ -85,7 +85,7 @@ export const FoodCard = ({
     >
       <Photo photo={food.photo} className="min-w-full" />
       <div className="flex flex-col px-3">
-        <h1 className="font-semibold capitalize mt-1 line-clamp-1">
+        <h1 className="font-semibold capitalize mt-1 line-clamp-2">
           {food.name}
         </h1>
 

@@ -99,7 +99,7 @@ export const ReviewForm = ({ food, review, onCancel }: ReviewFormProps) => {
             </FormItem>
           )}
         />
-        <div className="flex gap-3 justify-end">
+        <div className="flex gap-3 justify-end mt-3">
           {review && (
             <Button
               onClick={onCancel}

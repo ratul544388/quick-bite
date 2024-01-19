@@ -91,19 +91,19 @@ export const SingleCart = ({ cartItem }: CartItemProps) => {
             onClick={() => mutate(-1)}
             variant="outline"
             disabled={cartItem.count === 1}
-            className={cn("h-9 w-9 p-0 rounded-full")}
+            className={cn("h-7 w-7 p-0 rounded-full")}
           >
             <Minus className={cn("h-4 w-4")} />
           </Button>
           <h1
-            className={cn("font-bold select-none text-lg w-[30px] text-center")}
+            className={cn("font-semibold select-none text-sm w-[24px] text-center")}
           >
             {cartItem.count}
           </h1>
           <Button
             onClick={() => mutate(1)}
             variant="outline"
-            className={cn("h-9 w-9 p-0 rounded-full")}
+            className={cn("h-7 w-7 p-0 rounded-full")}
           >
             <Plus className={cn("h-4 w-4")} />
           </Button>

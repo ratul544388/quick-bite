@@ -25,7 +25,14 @@ export async function getInfinityFoods({
 
   const foods = await db.food.findMany({
     where: {
-      ...(category ? { category } : {}),
+      ...(category
+        ? {
+            category: {
+              equals: category,
+              mode: "insensitive",
+            },
+          }
+        : {}),
       ...(q
         ? {
             OR: [

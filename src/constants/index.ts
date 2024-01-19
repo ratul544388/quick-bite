@@ -23,7 +23,7 @@ export const categories = [
   "BEVERAGE",
   "DESSERT",
   "SALAD",
-];
+] as const;
 
 export const userNavLinks = [
   {

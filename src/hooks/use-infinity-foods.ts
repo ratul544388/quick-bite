@@ -59,7 +59,9 @@ export const useInfinityFoods = ({
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  console.log(data?.pages[1]);
+  useEffect(() => {
+    refetch();
+  }, [category, refetch]);
 
   const foods = data?.pages.flatMap((page) => page.items);
 

@@ -40,6 +40,15 @@ export async function createReview({
             user: true,
           },
         },
+        orderItems: {
+          include: {
+            order: {
+              include: {
+                user: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -47,8 +56,11 @@ export async function createReview({
       return { error: "Food not found" };
     }
 
-    const isPurchased = food.reviews.some(
-      (review) => review.userId === currentUser.id
+    const isPurchased = food.orderItems.some(
+      (item) =>
+        item.order.userId === currentUser.id &&
+        (item.order.status === "DELIVERED" ||
+          item.order.status === "DELIVERY_PENDING")
     );
 
     if (!isPurchased) {

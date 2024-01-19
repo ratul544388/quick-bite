@@ -24,7 +24,7 @@ export const FoodSlider = ({
 }: FoodSliderProps) => {
   return (
     <div className="w-full space-y-2 overflow-hidden p-3 bg-background rounded-xl shadow-lg">
-      <h3 className="text-2xl font-bold ml-2">{label}</h3>
+      <h3 className="text-2xl font-bold ml-2 text-primary">{label}</h3>
       <Swiper
         spaceBetween={2}
         slidesPerView={2}

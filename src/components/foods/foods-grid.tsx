@@ -2,10 +2,9 @@
 
 import Loader from "@/components/loaders/loader";
 import { useInfinityFoods } from "@/hooks/use-infinity-foods";
-import { Food, User } from "@prisma/client";
+import { FullUser, InitialFoods } from "@/types";
 import { PulseLoader } from "react-spinners";
 import { FoodCard } from "./food-card";
-import { FullUser, InitialFoods } from "@/types";
 
 interface FoodsGridProps {
   currentUser: FullUser;

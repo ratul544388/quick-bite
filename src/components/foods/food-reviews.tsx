@@ -46,9 +46,10 @@ const FoodReviews: React.FC<FoodReviewsProps> = ({ food, currentUser }) => {
 
   return (
     <div className="flex flex-col gap-3 text-sm">
-      <h1 className="text-2xl font-bold text-primary">Reviews</h1>
-      <Separator />
-      {hasPurchased && !userReview && <ReviewForm food={food} />}
+      <div className="bg-background rounded-xl shadow-lg p-3">
+        <h1 className="text-2xl font-bold text-primary text-center">Reviews</h1>
+        {hasPurchased && !userReview && <ReviewForm food={food} />}
+      </div>
       <section className="grid sm:grid-cols-2">
         {food.reviews.map((review) => (
           <>
@@ -61,7 +62,7 @@ const FoodReviews: React.FC<FoodReviewsProps> = ({ food, currentUser }) => {
             ) : (
               <div
                 key={review.id}
-                className="space-y-3 p-3 shadow-lg rounded-lg relative"
+                className="space-y-3 p-3 shadow-lg rounded-lg relative bg-background"
               >
                 {currentUser?.id === review.userId && (
                   <ActionDropdownMenu
@@ -100,7 +101,9 @@ const FoodReviews: React.FC<FoodReviewsProps> = ({ food, currentUser }) => {
           </>
         ))}
         {!food.reviews.length && (
-          <p className="text text-muted-foreground mt-3 mx-auto sm:col-span-2">No review Yet</p>
+          <p className="text text-muted-foreground mt-3 mx-auto sm:col-span-2">
+            No review Yet
+          </p>
         )}
       </section>
     </div>
