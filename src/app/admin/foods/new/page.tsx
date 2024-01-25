@@ -7,11 +7,21 @@ const NewFoodPage = () => {
   return (
     <div className="flex flex-col h-full gap-3">
       <PageHeader
-        label="Create cuisine"
-        icon={Utensils}
+        navigations={[
+          {
+            label: "Dashboard",
+            href: "/dashboard",
+          },
+          {
+            label: "Foods",
+            href: "/admin/foods",
+          },
+          {
+            label: "New",
+          },
+        ]}
         actionLabel="Cancel"
         actionUrl="/admin/cuisines"
-        actionVariant="outline"
       />
       <Separator />
       <FoodForm />

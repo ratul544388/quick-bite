@@ -1,67 +1,63 @@
 "use client";
 
 import { addToCart } from "@/actions/cart-action";
-import { checkout } from "@/actions/checkout-action";
 import { FoodSlider } from "@/components/foods/food-slider";
 import { Photo } from "@/components/photo";
 import { Star } from "@/components/star";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useModal } from "@/hooks/use-modal-store";
+import { useOrder } from "@/hooks/use-order";
 import { cn } from "@/lib/utils";
 import { FullFood, FullUser } from "@/types";
-import { Food } from "@prisma/client";
+import { InvalidateQueryFilters, useQueryClient } from "@tanstack/react-query";
 import { Minus, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import toast from "react-hot-toast";
-import FoodDescription from "./food-description";
 import FoodReviews from "./food-reviews";
-import { InvalidateQueryFilters, useQueryClient } from "@tanstack/react-query";
+import { Stars } from "../stars";
 
 interface FoodInfoProps {
   food: FullFood;
   currentUser: FullUser | null;
-  similarFoods: Food[];
 }
 
-const FoodInfo: React.FC<FoodInfoProps> = ({
-  food,
-  currentUser,
-  similarFoods,
-}) => {
-  const [count, setCount] = useState(1);
+const FoodInfo: React.FC<FoodInfoProps> = ({ food, currentUser }) => {
+  const [quantity, setQuantity] = useState(1);
   const router = useRouter();
   const { onOpen } = useModal();
   const [isPending, startTransition] = useTransition();
   const queryClient = useQueryClient();
 
-  const handleOrder = () => {
-    if (currentUser && (!currentUser.address || !currentUser.phone)) {
-      onOpen("ADDRESS_MODAL", { user: currentUser });
-    }
-    startTransition(() => {
-      const orderItems = [
-        {
-          food,
-          quantity: count,
-        },
-      ];
-      checkout({ orderItems }).then(({ error, url }) => {
-        if (error) {
-          toast.error(error);
-        } else if (url) {
-          window.location.assign(url);
-        }
-      });
-    });
-  };
+  const { handleOrder, isLoading } = useOrder();
+
+  // const handleOrder = () => {
+  //   if (currentUser && (!currentUser.address || !currentUser.phone)) {
+  //     onOpen("ADDRESS_MODAL", { user: currentUser });
+  //   }
+  //   startTransition(() => {
+  //     const orderItems = [
+  //       {
+  //         food,
+  //         quantity: count,
+  //       },
+  //     ];
+  //     checkout({ orderItems }).then(({ error, url }) => {
+  //       if (error) {
+  //         toast.error(error);
+  //       } else if (url) {
+  //         window.location.assign(url);
+  //       }
+  //     });
+  //   });
+  // };
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
     startTransition(() => {
-      addToCart({ foodId: food.id, count }).then(({ success, error }) => {
+      addToCart({ foodId: food.id, quantity }).then(({ success, error }) => {
         if (success) {
           toast.success(success);
           queryClient.invalidateQueries(["cart"] as InvalidateQueryFilters);
@@ -70,6 +66,15 @@ const FoodInfo: React.FC<FoodInfoProps> = ({
         }
       });
     });
+  };
+
+  const onOrder = () => {
+    if (!currentUser) {
+      return onOpen("AUTH_MODAL", { redirectUrl: `/menu/${food.id}` });
+    } else if (!currentUser.address || !currentUser.phone) {
+      return onOpen("ADDRESS_MODAL");
+    }
+    handleOrder([{ food, quantity }]);
   };
 
   return (
@@ -85,15 +90,15 @@ const FoodInfo: React.FC<FoodInfoProps> = ({
             <h1 className="font-bold text-lg text-primary select-none">
               ${food.price}
             </h1>
-            <Star value={food.avgRating} viewOnly />
-            <p className="text-muted-foreground font-semibold">
-              Total: ${(food.price * count).toFixed(2)}
+            <Stars rating={food.avgRating} size={24} />
+            <p className="text-muted-foreground font-semibold mt-2">
+              Total: ${(food.price * quantity).toFixed(2)}
             </p>
             <div className="flex items-center gap-2 my-2 select-none">
               <Button
-                onClick={() => setCount((prev) => prev - 1)}
+                onClick={() => setQuantity((prev) => prev - 1)}
                 variant="outline"
-                disabled={count === 1}
+                disabled={quantity === 1}
                 className={cn("h-9 w-9 p-0 rounded-full")}
               >
                 <Minus className={cn("h-4 w-4")} />
@@ -103,10 +108,10 @@ const FoodInfo: React.FC<FoodInfoProps> = ({
                   "font-bold select-none text-lg w-[30px] text-center"
                 )}
               >
-                {count}
+                {quantity}
               </h1>
               <Button
-                onClick={() => setCount((prev) => prev + 1)}
+                onClick={() => setQuantity((prev) => prev + 1)}
                 variant="outline"
                 className={cn("h-9 w-9 p-0 rounded-full")}
               >
@@ -114,10 +119,19 @@ const FoodInfo: React.FC<FoodInfoProps> = ({
               </Button>
             </div>
             <div className="flex gap-4">
-              <Button onClick={handleOrder} disabled={isPending}>
+              <Button
+                onClick={onOrder}
+                disabled={isLoading}
+                className="shadow-md"
+              >
                 Order now
               </Button>
-              <Button onClick={handleAddToCart} disabled={isPending}>
+              <Button
+                variant="outline"
+                className="border-[1.5px] border-primary shadow-md"
+                onClick={handleAddToCart}
+                disabled={isPending}
+              >
                 Add to cart
               </Button>
             </div>

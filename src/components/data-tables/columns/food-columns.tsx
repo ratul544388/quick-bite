@@ -3,6 +3,7 @@
 import { Food, OrderItem } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
+import { FoodCellActions } from "../cell-actions/food-cell-actions";
 // import FoodCellAction from "../cell-actions/food-cell-action";
 
 export const foodColumns: ColumnDef<Food & { orderItems: OrderItem[] }>[] = [
@@ -56,11 +57,11 @@ export const foodColumns: ColumnDef<Food & { orderItems: OrderItem[] }>[] = [
       return <p className="capitalize">{totalOrders * itemCount}+</p>;
     },
   },
-//   {
-//     accessorKey: "id",
-//     header: "Action",
-//     cell: ({ row }) => {
-//       return <FoodCellAction food={row.original} />;
-//     },
-//   },
+  {
+    accessorKey: "id",
+    header: "Action",
+    cell: ({ row }) => {
+      return <FoodCellActions food={row.original} />;
+    },
+  },
 ];

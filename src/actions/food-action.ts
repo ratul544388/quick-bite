@@ -172,8 +172,13 @@ export async function createFood(values: z.infer<typeof FoodSchema>) {
       return { error: "Unauthorized" };
     }
 
+    const slug = values.name.replace(/\s+/g, "-").toLowerCase();
+
     await db.food.create({
-      data: values,
+      data: {
+        ...values,
+        slug,
+      },
     });
 
     return { success: "Food Item Created" };
@@ -203,11 +208,16 @@ export async function updateFood({
       return { error: "Unauthorized" };
     }
 
+    const slug = values.name.replace(/\s+/g, "-").toLowerCase();
+
     await db.food.update({
       where: {
         id: foodId,
       },
-      data: values,
+      data: {
+        ...values,
+        slug,
+      },
     });
 
     return { success: "Food Item Updated" };

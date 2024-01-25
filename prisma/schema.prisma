@@ -28,7 +28,7 @@ model User {
 model CartItem {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  count Int
+  quantity Int
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @db.ObjectId
@@ -39,7 +39,8 @@ model CartItem {
 
 model Food {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
+  name        String @unique
+  slug        String @unique
   category    String
   photo       String
   description String
@@ -88,11 +89,11 @@ model OrderItem {
 
   quantity Int
 
-  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId String  @db.ObjectId
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId String @db.ObjectId
 
-  food    Food   @relation(fields: [foodId], references: [id])
-  foodId  String @db.ObjectId
+  food   Food   @relation(fields: [foodId], references: [id])
+  foodId String @db.ObjectId
 }
 
 model StripeCustomer {

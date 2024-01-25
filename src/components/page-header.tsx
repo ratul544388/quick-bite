@@ -1,41 +1,47 @@
-import { LucideIcon, UtensilsCrossed } from "lucide-react";
+import { ChevronRight, LucideIcon, UtensilsCrossed } from "lucide-react";
 import Link from "next/link";
-import { buttonVariants } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { cn } from "@/lib/utils";
+import { Fragment } from "react";
+import { MaxWidthWrapper } from "./max-width-wrapper";
 
 interface PageHeaderProps {
-  label: string;
-  icon?: LucideIcon;
+  navigations: {
+    label: string;
+    href?: string;
+  }[];
   actionLabel?: string;
   actionUrl?: string;
-  actionIcon?: LucideIcon;
-  actionVariant?: "default" | "outline" | "secondary" | "ghost";
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({
-  label,
-  icon: Icon = UtensilsCrossed,
+  navigations,
   actionLabel,
   actionUrl,
-  actionIcon: ActionIcon,
-  actionVariant = "default",
 }) => {
   return (
-    <div className="flex justify-between items-center gap-3">
-      <div className="text-2xl sm:text-3xl font-bold text-primary flex items-center gap-2">
-        <Icon className="w-[22px] sm:h-[26px] h-[22px] sm:w-[26px]" />
-        {label}
+    <div className="flex flex-wrap gap-5 justify-between">
+      <div className="flex items-center gap-2">
+        {navigations.map(({ label, href = "/" }, index) => (
+          <Fragment key={label}>
+            {index + 1 < navigations.length ? (
+              <div className="flex items-center gap-2">
+                <Link
+                  href={href}
+                  className="font-semibold text-foreground/80 hover:text-foreground transition-colors"
+                >
+                  {label}
+                </Link>
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              </div>
+            ) : (
+              <p className="text-muted-foreground font-semibold line-clamp-1">{label}</p>
+            )}
+          </Fragment>
+        ))}
       </div>
       {actionLabel && actionUrl && (
-        <Link
-          href={actionUrl}
-          className={cn(
-            buttonVariants({
-              variant: actionVariant,
-            })
-          )}
-        >
-          {ActionIcon && <ActionIcon className="h-4 w-4 mr-2" />}
+        <Link href={actionUrl} className={cn(buttonVariants())}>
           {actionLabel}
         </Link>
       )}

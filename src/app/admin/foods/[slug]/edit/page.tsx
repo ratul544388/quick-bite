@@ -2,31 +2,41 @@ import { FoodForm } from "@/components/forms/food-form";
 import PageHeader from "@/components/page-header";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/lib/db";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 const Page = async ({
   params,
   searchParams,
 }: {
-  params: { food_id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: { slug: string };
+  searchParams: { [key: string]: string | undefined };
 }) => {
   const food = await db.food.findUnique({
     where: {
-      id: params.food_id,
+      slug: params.slug,
     },
   });
 
-  const addSizeAndExtra = !!searchParams.add_size_and_extra;
-
   if (!food) {
-    redirect("/");
+    notFound();
   }
 
   return (
     <div className="flex flex-col gap-3 h-full">
       <PageHeader
-        label={addSizeAndExtra ? "Size and extra" : "Update cuisine"}
+        navigations={[
+          {
+            label: "Dashboard",
+            href: "dashboard",
+          },
+          {
+            label: "Foods",
+            href: "/admin/foods",
+          },
+          {
+            label: `Edit: ${food.name}`,
+          },
+        ]}
       />
       <Separator />
       <FoodForm food={food} />

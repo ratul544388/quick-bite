@@ -1,5 +1,14 @@
 import { CartItem, Food, OrderItem, Order, Review, User } from "@prisma/client";
 
+export type FullOrderItem = OrderItem & {
+  food: Food;
+};
+
+export type FullOrder = Order & {
+  orderItems: FullOrderItem[];
+  user: User;
+};
+
 export type FullUser =
   | (User & {
       cartItems: (CartItem & {

@@ -49,7 +49,7 @@ export const FoodsGrid: React.FC<FoodsGridProps> = ({
 
   return (
     <div className="space-y-5">
-      <div className="grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 xs:gap-5">
         {foods?.map((food) => (
           <FoodCard
             currentUser={currentUser}

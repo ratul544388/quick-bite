@@ -31,10 +31,16 @@ const Page = async ({
   return (
     <div className="flex flex-col gap-4">
       <PageHeader
-        label="Cuisines"
-        icon={UtensilsCrossed}
+        navigations={[
+          {
+            label: "Dashbaord",
+            href: "/admin/dashboard",
+          },
+          {
+            label: "Foods",
+          },
+        ]}
         actionLabel="Add new"
-        actionIcon={BadgePlus}
         actionUrl="/admin/foods/new"
       />
       <Separator />

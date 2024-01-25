@@ -10,12 +10,14 @@ export type ModalType =
   | "DELETE_REVIEW_MODAL"
   | "EDIT_REVIEW_MODAL"
   | "DELIVER_ORDER_MODAL"
+  | "AUTH_MODAL"
 
 interface ModalData {
   user?: User;
   orderId?: string;
   foodId?: string;
   reviewId?: string;
+  redirectUrl?: string;
 }
 
 interface ModalStore {

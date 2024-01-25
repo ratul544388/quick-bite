@@ -5,20 +5,17 @@ import { db } from "@/lib/db";
 
 type OrderType = {
   page?: number;
-  adminOnly?: boolean;
+  userId?: string;
 };
 
-export async function getOrders({ page = 1, adminOnly }: OrderType = {}) {
-  const currentUser = await getCurrentUser();
-
-  if (adminOnly && !currentUser?.isAdmin) {
-    return null;
-  }
-
+export async function getOrders({ page = 1, userId }: OrderType = {}) {
   const take = 10;
   const skip = (page - 1) * take;
 
   const orders = await db.order.findMany({
+    where: {
+      userId,
+    },
     include: {
       user: true,
       orderItems: {
@@ -26,6 +23,9 @@ export async function getOrders({ page = 1, adminOnly }: OrderType = {}) {
           food: true,
         },
       },
+    },
+    orderBy: {
+      createdAt: "desc",
     },
     take,
     skip,

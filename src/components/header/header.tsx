@@ -11,8 +11,9 @@ import { MobileSidebar } from "./mobile-sidebar";
 
 export const Header = ({ currentUser }: { currentUser: FullUser }) => {
   return (
-    <header className="sticky inset-x-0 top-0 border-b shadow-md z-50 w-full">
-      <MaxWidthWrapper className="flex items-center justify-between h-[70px] bg-background">
+    <header className="sticky inset-x-0 top-0 border-b shadow-md z-50 w-full h-[70px]">
+      <div className="fixed h-[70px] w-full bg-background shadow-md"/>
+      <MaxWidthWrapper className="flex items-center justify-between h-full bg-background">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-8">
             <div className="flex items-center gap-3">

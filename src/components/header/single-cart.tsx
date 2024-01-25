@@ -10,7 +10,6 @@ import { Equal, Minus, Plus, Trash, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import toast from "react-hot-toast";
-import Counter from "../counter";
 import { Photo } from "../photo";
 import { Button } from "../ui/button";
 import { CartItem } from "@prisma/client";
@@ -26,7 +25,7 @@ export const SingleCart = ({ cartItem }: CartItemProps) => {
 
   const { mutate } = useMutation({
     mutationFn: async (amount: number) => {
-      await addToCart({ foodId: cartItem.foodId, count: amount });
+      await addToCart({ foodId: cartItem.foodId, quantity: amount });
     },
     onMutate: async (amount: number) => {
       await queryClient.cancelQueries(["cart"] as InvalidateQueryFilters);
@@ -35,7 +34,7 @@ export const SingleCart = ({ cartItem }: CartItemProps) => {
         ...item,
         ...(item.foodId === cartItem.foodId
           ? {
-              count: item.count + amount,
+              quantity: item.quantity + amount,
             }
           : {}),
       }));
@@ -80,25 +79,27 @@ export const SingleCart = ({ cartItem }: CartItemProps) => {
         <div className="flex items-center gap-2 text-muted-foreground">
           ${cartItem.food.price}
           <X className="h-3 w-3" />
-          {cartItem.count}
+          {cartItem.quantity}
           <Equal className="h-3 w-3" />
           <p className="text-primary">
-            ${(cartItem.count * cartItem.food.price).toFixed(2)}
+            ${(cartItem.quantity * cartItem.food.price).toFixed(2)}
           </p>
         </div>
         <div className="flex items-center gap-2 my-2 select-none">
           <Button
             onClick={() => mutate(-1)}
             variant="outline"
-            disabled={cartItem.count === 1}
+            disabled={cartItem.quantity === 1}
             className={cn("h-7 w-7 p-0 rounded-full")}
           >
             <Minus className={cn("h-4 w-4")} />
           </Button>
           <h1
-            className={cn("font-semibold select-none text-sm w-[24px] text-center")}
+            className={cn(
+              "font-semibold select-none text-sm w-[24px] text-center"
+            )}
           >
-            {cartItem.count}
+            {cartItem.quantity}
           </h1>
           <Button
             onClick={() => mutate(1)}

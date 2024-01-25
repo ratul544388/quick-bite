@@ -30,7 +30,9 @@ export default async function RootLayout({
           <QueryProvider>
             <ModalProvider />
             <ToastProvider />
-            <main className="min-h-screen flex flex-col gap-5">
+            <main
+              className="flex flex-col min-h-screen gap-3"
+            >
               <Header currentUser={currentUser} />
               {children}
             </main>

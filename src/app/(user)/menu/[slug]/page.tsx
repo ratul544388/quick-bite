@@ -6,11 +6,12 @@ import { getFoods } from "@/actions/food-action";
 import FoodInfo from "@/components/foods/food-info";
 import Footer from "@/components/footer";
 import { MaxWidthWrapper } from "@/components/max-width-wrapper";
+import PageHeader from "@/components/page-header";
 
-const Page = async ({ params }: { params: { food_id: string } }) => {
+const Page = async ({ params }: { params: { slug: string } }) => {
   const food = await db.food.findUnique({
     where: {
-      id: params.food_id,
+      slug: params.slug,
     },
     include: {
       reviews: {
@@ -36,16 +37,10 @@ const Page = async ({ params }: { params: { food_id: string } }) => {
     notFound();
   }
 
-  const similarFoods = await getFoods({ category: food.category });
-
   return (
     <div>
-      <MaxWidthWrapper>
-        <FoodInfo
-          food={food}
-          currentUser={currentUser}
-          similarFoods={similarFoods}
-        />
+      <MaxWidthWrapper className="space-y-5">
+        <FoodInfo food={food} currentUser={currentUser} />
       </MaxWidthWrapper>
       <Footer />
     </div>

@@ -107,8 +107,8 @@ export async function checkout({
       customer: stripeCustomer.stripeCustomerId,
       line_items,
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/my-orders`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/my-orders`,
       metadata: {
         orderId: order.id,
         userId: currentUser.id,

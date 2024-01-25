@@ -20,14 +20,14 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { Separator } from "../ui/separator";
 import { SingleCart } from "./single-cart";
+import { useOrder } from "@/hooks/use-order";
 
 interface CartProps {
   currentUser: User | null;
 }
 
 export const Cart = ({ currentUser }: CartProps) => {
-  const [isPending, startTransition] = useTransition();
-
+  const { isLoading, handleOrder } = useOrder();
   const { data } = useQuery({
     queryKey: ["cart"],
     queryFn: async () => {
@@ -38,35 +38,22 @@ export const Cart = ({ currentUser }: CartProps) => {
   });
 
   const totalPrice = data?.reduce((total, item) => {
-    return total + item.food.price * item.count;
+    return total + item.food.price * item.quantity;
   }, 0);
 
   const [total, setTotal] = useState(0);
+
+  const orderItems =
+    data?.map((item) => ({
+      food: item.food,
+      quantity: item.quantity,
+    })) || [];
 
   useEffect(() => {
     if (totalPrice) {
       setTotal(totalPrice);
     }
   }, [totalPrice]);
-
-  const handleCheckout = () => {
-    startTransition(() => {
-      const orderItems = data?.map((item) => ({
-        food: item.food,
-        quantity: item.count,
-      }));
-
-      if (!orderItems) return;
-
-      checkout({ orderItems, clearCart: "true" }).then(({ error, url }) => {
-        if (error) {
-          toast.error(error);
-        } else if (url) {
-          window.location.assign(url);
-        }
-      });
-    });
-  };
 
   return (
     <Sheet>
@@ -132,7 +119,10 @@ export const Cart = ({ currentUser }: CartProps) => {
               Total:
               <p className="text-primary">${total?.toFixed(2)}</p>
             </div>
-            <Button disabled={isPending} onClick={handleCheckout}>
+            <Button
+              disabled={isLoading}
+              onClick={() => handleOrder(orderItems)}
+            >
               Checkout
             </Button>
           </div>

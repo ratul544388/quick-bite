@@ -19,10 +19,10 @@ export async function getCartItems(userId?: string) {
 
 export async function addToCart({
   foodId,
-  count = 1,
+  quantity = 1,
 }: {
   foodId: string;
-  count?: number;
+  quantity?: number;
 }) {
   try {
     const currentUser = await getCurrentUser();
@@ -51,14 +51,14 @@ export async function addToCart({
                     id: existingCart.id,
                   },
                   data: {
-                    count: existingCart.count + count,
+                    quantity: existingCart.quantity + quantity,
                   },
                 },
               }
             : {
                 create: {
                   foodId,
-                  count,
+                  quantity,
                 },
               }),
         },
