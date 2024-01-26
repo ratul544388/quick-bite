@@ -1,10 +1,9 @@
-import { foodColumns } from "@/components/data-tables/columns/food-columns";
+import { orderColumns } from "@/components/data-tables/columns/order-columns";
 import { DataTable } from "@/components/data-tables/data-table";
 import PageHeader from "@/components/page-header";
 import { Pagination } from "@/components/pagination";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/lib/db";
-import { BadgePlus, UtensilsCrossed } from "lucide-react";
 
 const Page = async ({
   searchParams,
@@ -17,11 +16,12 @@ const Page = async ({
   const skip = (page - 1) * take;
   const totalPages = Math.ceil(totalFoods / take);
 
-  const foods = await db.food.findMany({
+  const orders = await db.order.findMany({
     include: {
+      user: true,
       orderItems: {
         include: {
-          order: true,
+          food: true,
         },
       },
     },
@@ -41,14 +41,12 @@ const Page = async ({
             href: "/admin/dashboard",
           },
           {
-            label: "Foods",
+            label: "Orders",
           },
         ]}
-        actionLabel="Add new"
-        actionUrl="/admin/foods/new"
       />
       <Separator />
-      <DataTable columns={foodColumns} data={foods} />
+      <DataTable columns={orderColumns} data={orders} />
       <Pagination currentPage={page} totalPages={totalPages} />
     </div>
   );

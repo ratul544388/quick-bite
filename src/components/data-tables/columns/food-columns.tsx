@@ -1,12 +1,14 @@
 "use client";
 
-import { Food, OrderItem } from "@prisma/client";
+import { Food, Order, OrderItem } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import { FoodCellActions } from "../cell-actions/food-cell-actions";
 // import FoodCellAction from "../cell-actions/food-cell-action";
 
-export const foodColumns: ColumnDef<Food & { orderItems: OrderItem[] }>[] = [
+export const foodColumns: ColumnDef<
+  Food & { orderItems: (OrderItem & { order: Order })[] }
+>[] = [
   {
     accessorKey: "photo",
     header: "Photo",
@@ -50,11 +52,14 @@ export const foodColumns: ColumnDef<Food & { orderItems: OrderItem[] }>[] = [
     accessorKey: "orderItems",
     header: "Sales",
     cell: ({ row }) => {
-      const totalOrders = row.original.orderItems.length;
-      const itemCount = row.original.orderItems.reduce((total, item) => {
-        return total + item.quantity;
+      const total = row.original.orderItems.reduce((total, item) => {
+        if (item.order.status !== "DELIVERED") {
+          return total;
+        }
+        return (total = total + item.quantity);
       }, 0);
-      return <p className="capitalize">{totalOrders * itemCount}+</p>;
+
+      return `${total}+`;
     },
   },
   {

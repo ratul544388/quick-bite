@@ -14,6 +14,6 @@ export default async function AdminLayout({
     notFound();
   }
   return (
-    <MaxWidthWrapper className="flex-1 flex-grow pb-10">{children}</MaxWidthWrapper>
+    <MaxWidthWrapper className="flex-1 flex-grow pb-10 max-w-screen-2xl">{children}</MaxWidthWrapper>
   );
 }

@@ -8,12 +8,18 @@ import { Logo } from "./logo";
 import { NavLinks } from "./nav-links";
 import { UserButton } from "./user-button";
 import { MobileSidebar } from "./mobile-sidebar";
+import { cn } from "@/lib/utils";
 
 export const Header = ({ currentUser }: { currentUser: FullUser }) => {
   return (
     <header className="sticky inset-x-0 top-0 border-b shadow-md z-50 w-full h-[70px]">
       <div className="fixed top-0 h-[70px] w-full bg-background" />
-      <MaxWidthWrapper className="flex items-center justify-between h-full bg-background">
+      <MaxWidthWrapper
+        className={cn(
+          "flex items-center justify-between h-full bg-background",
+          currentUser?.isAdmin && "max-w-screen-2xl"
+        )}
+      >
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-8">
             <div className="flex items-center gap-3">
@@ -24,8 +30,12 @@ export const Header = ({ currentUser }: { currentUser: FullUser }) => {
           </div>
         </div>
         <div className="flex items-center gap-5">
-          <HeaderSearch />
-          <Cart currentUser={currentUser} />
+          {!currentUser?.isAdmin && (
+            <>
+              <HeaderSearch />
+              <Cart currentUser={currentUser} />
+            </>
+          )}
           <UserButton currentUser={currentUser} />
         </div>
       </MaxWidthWrapper>
