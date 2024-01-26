@@ -3,7 +3,7 @@
 import { categories } from "@/constants";
 import { Button, buttonVariants } from "./ui/button";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn, formatText } from "@/lib/utils";
 import Link from "next/link";
 
 export const Categories = ({ category }: { category?: string }) => {
@@ -19,7 +19,7 @@ export const Categories = ({ category }: { category?: string }) => {
       {categories.map((item) => (
         <Link
           href={
-            item === "ALL" ? `/menu` : `/menu?category=${item.toLowerCase()}`
+            item === "all" ? `/menu` : `/menu?category=${item.toLowerCase()}`
           }
           key={item}
           className={cn(
@@ -29,11 +29,11 @@ export const Categories = ({ category }: { category?: string }) => {
         >
           <span
             className={cn(
-              "capitalize z-20",
+              "z-20",
               isActive(item) && "text-white transition-colors duration-500"
             )}
           >
-            {item.toLowerCase()}
+            {formatText(item)}
           </span>
           {isActive(item) && (
             <motion.span

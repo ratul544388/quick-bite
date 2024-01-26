@@ -5,6 +5,7 @@ import { CancelOrderModal } from "@/components/modals/cancel-order-modal.";
 import { DeleteFoodModal } from "@/components/modals/delete-food-modal";
 import { DeleteReviewModal } from "@/components/modals/delete-review-modal";
 import { DeliverOrderModal } from "@/components/modals/deliver-order-modal";
+import { OrderModal } from "@/components/modals/order-modal";
 import { useEffect, useState } from "react";
 
 export const ModalProvider = () => {
@@ -26,6 +27,7 @@ export const ModalProvider = () => {
       <DeleteReviewModal />
       <DeliverOrderModal />
       <AuthModal />
+      <OrderModal />
     </>
   );
 };

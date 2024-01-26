@@ -22,13 +22,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { updateShippingAddress } from "@/actions/shipping-address-action";
 import { useModal } from "@/hooks/use-modal-store";
 import { shippingAddressSchema } from "@/schemas";
 import { useRouter } from "next/navigation";
 import { useEffect, useTransition } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
-import { updateShippingAddress } from "@/actions/shipping-address-action";
 
 const AddressModal = () => {
   const { isOpen, type, data, onClose } = useModal();

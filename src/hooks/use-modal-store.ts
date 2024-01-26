@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { Food, User } from "@prisma/client";
 import { create } from "zustand";
 
 export type ModalType =
@@ -11,6 +11,7 @@ export type ModalType =
   | "EDIT_REVIEW_MODAL"
   | "DELIVER_ORDER_MODAL"
   | "AUTH_MODAL"
+  | "ORDER_MODAL";
 
 interface ModalData {
   user?: User;
@@ -18,6 +19,9 @@ interface ModalData {
   foodId?: string;
   reviewId?: string;
   redirectUrl?: string;
+  phone?: string;
+  address?: string;
+  food?: Food;
 }
 
 interface ModalStore {

@@ -15,7 +15,7 @@ export const Photo = ({
   return (
     <div
       className={cn(
-        "relative aspect-[6/5] w-full h-fit overflow-hidden rounded-lg",
+        "relative aspect-square w-full h-fit overflow-hidden rounded-lg",
         className
       )}
     >

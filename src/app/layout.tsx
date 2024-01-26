@@ -26,15 +26,13 @@ export default async function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={cn(inter.className, "bg-gray-100")}>
+        <body className={cn(inter.className, "bg-zinc-50")}>
           <QueryProvider>
             <ModalProvider />
             <ToastProvider />
-            <main
-              className="flex flex-col min-h-screen gap-3"
-            >
+            <main className="flex flex-col min-h-screen gap-5">
               <Header currentUser={currentUser} />
-              {children}
+              <div className="flex-1 flex-grow flex flex-col">{children}</div>
             </main>
           </QueryProvider>
         </body>

@@ -10,19 +10,19 @@ export const MAX_DATA_TABLE_PAGE_SIZE = 10;
 export const MAX_FOODS_PAGE_SIZE = 12;
 
 export const categories = [
-  "ALL",
-  "BURGER",
-  "PIZZA",
-  "COMBO",
-  "COFFEE",
-  "SANDWICH",
-  "GRILLED",
-  "PASTA",
-  "ICE_CREAM",
-  "VEGETARIAN",
-  "BEVERAGE",
-  "DESSERT",
-  "SALAD",
+  "all",
+  "burger",
+  "pizza",
+  "combo",
+  "coffee",
+  "sandwich",
+  "grilled",
+  "pasta",
+  "ice-cream",
+  "vegetarian",
+  "beverage",
+  "dessert",
+  "salad",
 ] as const;
 
 export const userNavLinks = [

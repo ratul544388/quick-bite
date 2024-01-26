@@ -34,7 +34,7 @@ export default async function Home({
             <h1 className="font-extrabold leading-[60px] text-5xl text-center flex items-end text-primary">
               Hungry? You are in the right place.
             </h1>
-            <p>
+            <p className="text-center">
               Order any meal at may time and we will deliver it directly to you
               home.
             </p>

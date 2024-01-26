@@ -20,8 +20,6 @@ const NewFoodPage = () => {
             label: "New",
           },
         ]}
-        actionLabel="Cancel"
-        actionUrl="/admin/cuisines"
       />
       <Separator />
       <FoodForm />

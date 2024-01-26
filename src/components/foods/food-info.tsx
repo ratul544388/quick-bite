@@ -17,6 +17,7 @@ import { useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import FoodReviews from "./food-reviews";
 import { Stars } from "../stars";
+import { Counter } from "../counter";
 
 interface FoodInfoProps {
   food: FullFood;
@@ -79,7 +80,7 @@ const FoodInfo: React.FC<FoodInfoProps> = ({ food, currentUser }) => {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="grid grid-cols-9 gap-x-8 gap-y-14 bg-background p-3 rounded-xl shadow-lg md:max-w-max max-w-[500px]">
+      <div className="grid grid-cols-9 gap-x-8 gap-y-14 bg-background p-3 rounded-xl shadow-lg md:max-w-max max-w-[500px] mx-auto">
         <div className="grid grid-cols-9 gap-6 col-span-9 md:col-span-5">
           <Photo
             photo={food.photo}
@@ -94,30 +95,10 @@ const FoodInfo: React.FC<FoodInfoProps> = ({ food, currentUser }) => {
             <p className="text-muted-foreground font-semibold mt-2">
               Total: ${(food.price * quantity).toFixed(2)}
             </p>
-            <div className="flex items-center gap-2 my-2 select-none">
-              <Button
-                onClick={() => setQuantity((prev) => prev - 1)}
-                variant="outline"
-                disabled={quantity === 1}
-                className={cn("h-9 w-9 p-0 rounded-full")}
-              >
-                <Minus className={cn("h-4 w-4")} />
-              </Button>
-              <h1
-                className={cn(
-                  "font-bold select-none text-lg w-[30px] text-center"
-                )}
-              >
-                {quantity}
-              </h1>
-              <Button
-                onClick={() => setQuantity((prev) => prev + 1)}
-                variant="outline"
-                className={cn("h-9 w-9 p-0 rounded-full")}
-              >
-                <Plus className={cn("h-4 w-4")} />
-              </Button>
-            </div>
+            <Counter
+              quantity={quantity}
+              onChange={(value) => setQuantity(value)}
+            />
             <div className="flex gap-4">
               <Button
                 onClick={onOrder}
@@ -149,6 +130,7 @@ const FoodInfo: React.FC<FoodInfoProps> = ({ food, currentUser }) => {
         currentUser={currentUser}
         label="Similar cuisines"
         queryKey={["similer-food"]}
+        category={food.category}
       />
       <FoodReviews food={food} currentUser={currentUser} />
     </div>

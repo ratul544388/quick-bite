@@ -32,12 +32,9 @@ export const ReviewSchema = z.object({
 });
 
 export const shippingAddressSchema = z.object({
-  address: z
-    .string({
-      required_error: "Address is required",
-      invalid_type_error: "Address is required",
-    })
-    .min(10, { message: "Address must be at lease 10 characters in length" })
-    .max(50, { message: "Address can not be longer than 50 characters" }),
-  phone: z.string({ required_error: "Phone is required" }).min(10).max(11),
+  phone: z
+    .string({ required_error: "Phone is required" })
+    .min(10, { message: "Phone number must contains 10-11 digits" })
+    .max(11, { message: "Phone number must contains 10-11 digits" }),
+  address: z.string().min(3, { message: "Address is too short" }),
 });

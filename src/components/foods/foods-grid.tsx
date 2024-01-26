@@ -1,6 +1,5 @@
 "use client";
 
-import Loader from "@/components/loaders/loader";
 import { useInfinityFoods } from "@/hooks/use-infinity-foods";
 import { FullUser, InitialFoods } from "@/types";
 import { PulseLoader } from "react-spinners";
@@ -27,7 +26,7 @@ export const FoodsGrid: React.FC<FoodsGridProps> = ({
     queryKey,
   });
 
-  if (status === "pending" || isRefetching) {
+  if (status === "pending") {
     return (
       <div className="flex items-center gap-3">
         {Array.from({ length: 7 }).map((_, index) => (
@@ -43,7 +42,7 @@ export const FoodsGrid: React.FC<FoodsGridProps> = ({
 
   if (foods?.length === 0) {
     return (
-      <p className="text-muted-foreground mt-3 mx-auto">No food item found</p>
+      <p className="text-muted-foreground mt-3 text-center">No food items found</p>
     );
   }
 
@@ -51,12 +50,7 @@ export const FoodsGrid: React.FC<FoodsGridProps> = ({
     <div className="space-y-5">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 xs:gap-5">
         {foods?.map((food) => (
-          <FoodCard
-            currentUser={currentUser}
-            food={food}
-            queryKey={queryKey}
-            key={food.id}
-          />
+          <FoodCard key={food.id} currentUser={currentUser} food={food} />
         ))}
       </div>
       {hasNextPage ? (
@@ -70,3 +64,5 @@ export const FoodsGrid: React.FC<FoodsGridProps> = ({
     </div>
   );
 };
+
+

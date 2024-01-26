@@ -14,6 +14,7 @@ import { useModal } from "@/hooks/use-modal-store";
 import { FullFood, FullUser } from "@/types";
 import { UserAvatar } from "../user-avatar";
 import { foodColumns } from "../data-tables/columns/food-columns";
+import { Stars } from "../stars";
 
 const formSchema = z.object({
   star: z
@@ -90,7 +91,7 @@ const FoodReviews: React.FC<FoodReviewsProps> = ({ food, currentUser }) => {
                   />
                   <div>
                     <h4 className="text-sm font-bold">{review.user.name}</h4>
-                    <Star value={review.star} viewOnly size={24} />
+                    <Stars rating={review.star} />
                   </div>
                 </div>
                 <p className="">{review.comment}</p>

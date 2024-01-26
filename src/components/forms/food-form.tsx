@@ -25,7 +25,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import Select from "../select";
+import { Combobox } from "../combo-box";
 
 interface FoodFormProps {
   food?: Food;
@@ -125,12 +125,11 @@ export const FoodForm = ({ food }: FoodFormProps) => {
             <FormItem>
               <FormLabel>Category</FormLabel>
               <FormControl>
-                <Select
-                  items={categories.slice(1).map((item) => item)}
+                <Combobox
+                  options={categories.slice(1).map((item) => item)}
                   onChange={field.onChange}
                   value={field.value}
                   placeholder="Select a category"
-                  filter
                 />
               </FormControl>
               <FormMessage />

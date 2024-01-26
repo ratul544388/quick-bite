@@ -23,10 +23,10 @@ export async function getCurrentUser() {
           orderItems: {
             include: {
               food: true,
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      },
     },
   });
 

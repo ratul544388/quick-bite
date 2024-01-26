@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { Photo } from "./photo";
 import { cn, formatText } from "@/lib/utils";
 import { useModal } from "@/hooks/use-modal-store";
+import { useOrder } from "@/hooks/use-order";
 
 interface OrderItemProps {
   order: FullOrder;
@@ -15,6 +16,13 @@ interface OrderItemProps {
 
 export const OrderItem = ({ order }: OrderItemProps) => {
   const { onOpen } = useModal();
+  const { handleOrder, isLoading } = useOrder();
+
+  const orderItems = order.orderItems.map((item) => ({
+    food: item.food,
+    quantity: item.quantity,
+  }));
+
   return (
     <div
       key={order.id}
@@ -71,13 +79,15 @@ export const OrderItem = ({ order }: OrderItemProps) => {
         ))}
       </div>
       {order.status === "WAITING_FOR_PAYMENT" && (
-        <Button
-          onClick={() => onOpen("CANCEL_ORDER_MODAL", { orderId: order.id })}
-          variant="outline"
-          className="ml-auto mt-3"
-        >
-          Cancel Order
-        </Button>
+        <div className="flex gap-3 ml-auto mt-3">
+          <Button
+            onClick={() => onOpen("CANCEL_ORDER_MODAL", { orderId: order.id })}
+            variant="outline"
+          >
+            Cancel Order
+          </Button>
+          <Button onClick={() => handleOrder(orderItems)}>Make Payment</Button>
+        </div>
       )}
     </div>
   );

@@ -2,6 +2,7 @@ import { checkout } from "@/actions/checkout-action";
 import { Food } from "@prisma/client";
 import { useTransition } from "react";
 import toast from "react-hot-toast";
+import { useModal } from "./use-modal-store";
 
 type OrderItem = {
   food: Food;

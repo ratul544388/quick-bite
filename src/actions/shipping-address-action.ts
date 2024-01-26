@@ -1,9 +1,9 @@
 "use server";
 
-import * as z from "zod";
 import { getCurrentUser } from "@/lib/current-user";
 import { db } from "@/lib/db";
 import { shippingAddressSchema } from "@/schemas";
+import * as z from "zod";
 
 export async function updateShippingAddress(values: z.infer<typeof shippingAddressSchema>) {
   try {

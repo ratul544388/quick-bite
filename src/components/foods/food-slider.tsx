@@ -3,7 +3,6 @@
 import { FoodType, getFoods } from "@/actions/food-action";
 import { FoodCard } from "@/components/foods/food-card";
 import { FullUser } from "@/types";
-import { Food, User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
 import "swiper/css";
@@ -17,14 +16,21 @@ interface FoodSliderProps {
   label: string;
   currentUser: FullUser;
   type?: FoodType;
-  queryKey: string[]
+  queryKey: string[];
+  category?: string;
 }
 
-export const FoodSlider = ({ label, currentUser, type, queryKey }: FoodSliderProps) => {
+export const FoodSlider = ({
+  label,
+  currentUser,
+  type,
+  queryKey,
+  category,
+}: FoodSliderProps) => {
   const { data, isPending } = useQuery({
     queryKey: [queryKey],
     queryFn: async () => {
-      const res = await getFoods({ type });
+      const res = await getFoods({ type, category });
       return res;
     },
   });
@@ -46,11 +52,11 @@ export const FoodSlider = ({ label, currentUser, type, queryKey }: FoodSliderPro
     <div className="w-full space-y-2 overflow-hidden p-3 bg-background rounded-xl shadow-lg">
       <h3 className="text-2xl font-bold ml-2 text-primary">{label}</h3>
       <Swiper
+        loop={true}
         spaceBetween={2}
         slidesPerView={2}
         modules={[Pagination, Navigation]}
         navigation={true}
-        pagination={{ clickable: true }}
         breakpoints={{
           320: {
             slidesPerView: 2,
@@ -75,7 +81,6 @@ export const FoodSlider = ({ label, currentUser, type, queryKey }: FoodSliderPro
               <FoodCard
                 currentUser={currentUser}
                 food={food}
-                queryKey={queryKey}
               />
             </SwiperSlide>
           </div>
