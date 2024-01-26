@@ -16,6 +16,7 @@ import { useRoutes } from "@/hooks/use-routes";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { Logo } from "./logo";
+import { useLoadingStore } from "@/hooks/use-loading-store";
 
 interface CartProps {
   currentUser: User | null;
@@ -25,7 +26,6 @@ export const MobileSidebar = ({ currentUser }: CartProps) => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const routes = useRoutes(currentUser?.isAdmin);
-
   const handleTrigger = useCallback(() => {
     if (open) {
       setOpen(false);
@@ -34,9 +34,9 @@ export const MobileSidebar = ({ currentUser }: CartProps) => {
     }
   }, [open]);
 
-  useEffect(() => {
+  const handleClick = () => {
     setOpen(false);
-  }, [pathname]);
+  };
 
   return (
     <Sheet open={open} onOpenChange={handleTrigger}>
@@ -54,6 +54,7 @@ export const MobileSidebar = ({ currentUser }: CartProps) => {
             <Link
               href={href}
               key={href}
+              onClick={handleClick}
               className={cn(
                 "pl-10 relative flex items-center gap-4 py-3 hover:bg-primary/5 font-medium",
                 href === pathname && "bg-primary/5 font-semibold"

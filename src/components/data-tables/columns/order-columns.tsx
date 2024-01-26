@@ -11,6 +11,7 @@ import { OrderItemsCell } from "../order-items-cell";
 import { cn, formatText } from "@/lib/utils";
 import { UserAvatar } from "@/components/user-avatar";
 import { OrderCellAction } from "../cell-actions/order-cell-actions";
+import { Nanum_Myeongjo } from "next/font/google";
 
 export const orderColumns: ColumnDef<
   Order & { orderItems: (OrderItem & { food: Food })[]; user: User }
@@ -26,10 +27,9 @@ export const orderColumns: ColumnDef<
       const { name, phone, address, imageUrl, email } = row.original.user;
       return (
         <div className="space-y-2">
-          <div className="flex items-center gap-3">
-            <UserAvatar image={imageUrl} alt={name} />
-            <h4 className="text-sm font-bold">{name}</h4>
-          </div>
+          <p className="text-muted-foreground">
+            Name: <span className="text-foreground font-semibold">{name}</span>
+          </p>
           <p className="text-muted-foreground">
             Phone:{" "}
             <span className="text-foreground font-semibold">{phone}</span>

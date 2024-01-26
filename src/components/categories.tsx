@@ -5,13 +5,20 @@ import { Button, buttonVariants } from "./ui/button";
 import { motion } from "framer-motion";
 import { cn, formatText } from "@/lib/utils";
 import Link from "next/link";
+import { useLoadingStore } from "@/hooks/use-loading-store";
 
 export const Categories = ({ category }: { category?: string }) => {
-  const isActive = (item: string) => {
-    if (item === "ALL" && !category) {
+  const { onLoading, isLoading } = useLoadingStore();
+  const isActive = (item: (typeof categories)[number]) => {
+    if (item === "all" && !category) {
       return true;
     }
-    return item === category?.toUpperCase();
+    return item === category;
+  };
+
+  const handleClick = (item: typeof categories[number]) => {
+    if (item === category) return;
+    onLoading();
   };
 
   return (
@@ -21,10 +28,12 @@ export const Categories = ({ category }: { category?: string }) => {
           href={
             item === "all" ? `/menu` : `/menu?category=${item.toLowerCase()}`
           }
+          onClick={() => handleClick(item)}
           key={item}
           className={cn(
             buttonVariants({ variant: "outline" }),
-            "relative rounded-lg hover:bg-primary/10"
+            "relative rounded-lg hover:bg-primary/10 border-none",
+            isLoading && "pointer-events-none"
           )}
         >
           <span

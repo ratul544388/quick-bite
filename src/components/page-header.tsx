@@ -1,9 +1,11 @@
-import { ChevronRight, LucideIcon, UtensilsCrossed } from "lucide-react";
-import Link from "next/link";
-import { Button, buttonVariants } from "./ui/button";
+"use client";
+
+import { useLoadingStore } from "@/hooks/use-loading-store";
 import { cn } from "@/lib/utils";
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { Fragment } from "react";
-import { MaxWidthWrapper } from "./max-width-wrapper";
+import { buttonVariants } from "./ui/button";
 
 interface PageHeaderProps {
   navigations: {
@@ -28,14 +30,18 @@ const PageHeader: React.FC<PageHeaderProps> = ({
               <div className="flex items-center gap-2">
                 <Link
                   href={href}
-                  className="font-semibold text-foreground/80 hover:text-foreground transition-colors"
+                  className={cn(
+                    "font-semibold text-foreground/80 hover:text-foreground transition-colors",
+                  )}
                 >
                   {label}
                 </Link>
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               </div>
             ) : (
-              <p className="text-muted-foreground font-semibold line-clamp-1">{label}</p>
+              <p className="text-muted-foreground font-semibold line-clamp-1">
+                {label}
+              </p>
             )}
           </Fragment>
         ))}

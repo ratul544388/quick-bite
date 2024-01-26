@@ -40,6 +40,17 @@ const Page = async ({ params }: { params: { slug: string } }) => {
   return (
     <div>
       <MaxWidthWrapper className="space-y-5">
+        <PageHeader
+          navigations={[
+            {
+              label: "Menu",
+              href: "/menu",
+            },
+            {
+              label: `${food.name}`,
+            },
+          ]}
+        />
         <FoodInfo food={food} currentUser={currentUser} />
       </MaxWidthWrapper>
       <Footer />

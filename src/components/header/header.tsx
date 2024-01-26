@@ -13,10 +13,9 @@ import { cn } from "@/lib/utils";
 export const Header = ({ currentUser }: { currentUser: FullUser }) => {
   return (
     <header className="sticky inset-x-0 top-0 border-b shadow-md z-50 w-full h-[70px]">
-      <div className="fixed top-0 h-[70px] w-full bg-background" />
       <MaxWidthWrapper
         className={cn(
-          "flex items-center justify-between h-full bg-background",
+          "flex items-center justify-between h-full bg-background z-10",
           currentUser?.isAdmin && "max-w-screen-2xl"
         )}
       >

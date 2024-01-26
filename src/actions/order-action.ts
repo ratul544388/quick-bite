@@ -2,19 +2,46 @@
 
 import { getCurrentUser } from "@/lib/current-user";
 import { db } from "@/lib/db";
+import { endOfDay, endOfMonth, startOfDay, startOfMonth } from "date-fns";
 
+export type RevenueType = "TODAY" | "THIS_MONTH" | "TOTAL";
 type OrderType = {
   page?: number;
   userId?: string;
+  revenueType?: RevenueType;
 };
 
-export async function getOrders({ page = 1, userId }: OrderType = {}) {
+export async function getOrders({
+  page = 1,
+  userId,
+  revenueType,
+}: OrderType = {}) {
   const take = 10;
   const skip = (page - 1) * take;
-
+  const today = new Date();
   const orders = await db.order.findMany({
     where: {
-      userId,
+      ...(userId ? { userId } : {}),
+      ...(revenueType
+        ? {
+            status: "DELIVERED",
+          }
+        : {}),
+      ...(revenueType === "TODAY"
+        ? {
+            deliveredAt: {
+              gte: startOfDay(today),
+              lte: endOfDay(today),
+            },
+          }
+        : revenueType === "THIS_MONTH"
+        ? {
+            deliveredAt: {
+              gte: startOfMonth(today),
+              lte: endOfMonth(today),
+            },
+          }
+        : {}),
     },
     include: {
       user: true,
@@ -27,7 +54,7 @@ export async function getOrders({ page = 1, userId }: OrderType = {}) {
     orderBy: {
       createdAt: "desc",
     },
-    take,
+    ...(take ? { take } : {}),
     skip,
   });
 

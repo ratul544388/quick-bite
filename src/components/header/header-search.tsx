@@ -8,16 +8,19 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { Photo } from "../photo";
 import { PulseLoader } from "react-spinners";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getFoods } from "@/actions/food-action";
 import { useDebounce } from "@/hooks/use-debounce";
+import { useLoadingStore } from "@/hooks/use-loading-store";
 
 export const HeaderSearch = () => {
+  const { onLoading } = useLoadingStore();
+  const params = useSearchParams();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef(null);
   const [value, setValue] = useState("");
   const debouncedValue = useDebounce(value, 500);
   const [foods, setFoods] = useState<Food[]>();
@@ -30,7 +33,7 @@ export const HeaderSearch = () => {
 
   useOnClickOutside(containerRef, () => setIsOpen(false));
 
-  const handleSearch = useCallback(async () => {
+  const handleGetResults = useCallback(async () => {
     setIsLoading(true);
     try {
       const foods = await getFoods({ q: debouncedValue, limit: 5 });
@@ -42,11 +45,15 @@ export const HeaderSearch = () => {
     }
   }, [debouncedValue]);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "Enter" && value) {
-      router.push(`/menu/search?q=${value}`);
-      setIsOpen(false);
+  const handleSearch = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (params.get("q") === value) {
+      return setIsOpen(false);
     }
+    onLoading();
+    router.push(`/menu/search?q=${value}`);
+    setIsOpen(false);
+    inputRef?.current?.blur();
   };
 
   const handleClickSearchButton = () => {
@@ -58,9 +65,9 @@ export const HeaderSearch = () => {
 
   useEffect(() => {
     if (isOpen && debouncedValue) {
-      handleSearch();
+      handleGetResults();
     }
-  }, [debouncedValue, isOpen, handleSearch]);
+  }, [debouncedValue, isOpen, handleGetResults]);
 
   return (
     <>
@@ -78,8 +85,8 @@ export const HeaderSearch = () => {
           isOpen && "block"
         )}
       />
-      <div
-        onKeyDown={handleKeyDown}
+      <form
+        onSubmit={handleSearch}
         ref={containerRef}
         className={cn(
           "absolute flex flex-col gap-1 items-center left-1/2 -translate-x-1/2 top-[0px] opacity-0 pointer-events-none transition-all w-[320px] sm:w-[400px]",
@@ -145,7 +152,7 @@ export const HeaderSearch = () => {
             </div>
           ))}
         </div>
-      </div>
+      </form>
     </>
   );
 };

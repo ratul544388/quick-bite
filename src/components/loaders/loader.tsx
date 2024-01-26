@@ -1,16 +1,16 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { PuffLoader } from "react-spinners";
+import { PacmanLoader } from "react-spinners";
 
 const Loader = ({ className }: { className?: string }) => {
   return (
     <div
       className={cn(
-        "fixed z-10 inset-0 flex items-center justify-center",
+        "fixed z-50 bg-background/30 inset-0 flex items-center justify-center",
         className
       )}
     >
-      <PuffLoader color="#E11D48" />
+      <PacmanLoader color="#E11D48" />
     </div>
   );
 };

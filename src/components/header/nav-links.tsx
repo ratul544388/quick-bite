@@ -17,7 +17,7 @@ export const NavLinks = ({ isAdmin }: { isAdmin: boolean }) => {
         >
           <p
             className={cn(
-              "text-muted-foreground group-hover:text-foreground transition-colors duration-300",
+              "text-foreground/70 group-hover:text-foreground transition-colors duration-300",
               pathname === route.href && "text-foreground"
             )}
           >

@@ -8,6 +8,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { LoaderProvider } from "@/providers/loader-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,7 @@ export default async function RootLayout({
           <QueryProvider>
             <ModalProvider />
             <ToastProvider />
+            <LoaderProvider />
             <main className="flex flex-col min-h-screen gap-5">
               <Header currentUser={currentUser} />
               <div className="flex-1 flex-grow flex flex-col">{children}</div>
