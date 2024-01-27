@@ -33,30 +33,12 @@ const FoodInfo: React.FC<FoodInfoProps> = ({ food, currentUser }) => {
 
   const { handleOrder, isLoading } = useOrder();
 
-  // const handleOrder = () => {
-  //   if (currentUser && (!currentUser.address || !currentUser.phone)) {
-  //     onOpen("ADDRESS_MODAL", { user: currentUser });
-  //   }
-  //   startTransition(() => {
-  //     const orderItems = [
-  //       {
-  //         food,
-  //         quantity: count,
-  //       },
-  //     ];
-  //     checkout({ orderItems }).then(({ error, url }) => {
-  //       if (error) {
-  //         toast.error(error);
-  //       } else if (url) {
-  //         window.location.assign(url);
-  //       }
-  //     });
-  //   });
-  // };
-
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
+    if (!currentUser) {
+      return onOpen("AUTH_MODAL", { redirectUrl: `/menu/${food.id}` });
+    }
     startTransition(() => {
       addToCart({ foodId: food.id, quantity }).then(({ success, error }) => {
         if (success) {

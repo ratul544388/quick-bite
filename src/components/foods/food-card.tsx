@@ -15,9 +15,15 @@ interface FoodCardProps {
   food: Food;
   currentUser: FullUser;
   className?: string;
+  afterSignInUrl?: string;
 }
 
-export const FoodCard = ({ food, currentUser, className }: FoodCardProps) => {
+export const FoodCard = ({
+  food,
+  currentUser,
+  className,
+  afterSignInUrl,
+}: FoodCardProps) => {
   const router = useRouter();
   const { onOpen } = useModal();
 
@@ -25,7 +31,7 @@ export const FoodCard = ({ food, currentUser, className }: FoodCardProps) => {
     e.stopPropagation();
     e.preventDefault();
     if (!currentUser) {
-      return onOpen("AUTH_MODAL");
+      return onOpen("AUTH_MODAL", { redirectUrl: afterSignInUrl });
     } else if (!currentUser.phone || !currentUser.address) {
       return onOpen("ADDRESS_MODAL");
     } else {

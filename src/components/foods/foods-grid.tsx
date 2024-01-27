@@ -10,9 +10,11 @@ interface FoodsGridProps {
   category?: string;
   q?: string;
   initialFoods: InitialFoods;
+  afterSignInUrl?: string;
 }
 
 export const FoodsGrid: React.FC<FoodsGridProps> = ({
+  afterSignInUrl,
   initialFoods,
   currentUser,
   category,
@@ -42,7 +44,9 @@ export const FoodsGrid: React.FC<FoodsGridProps> = ({
 
   if (foods?.length === 0) {
     return (
-      <p className="text-muted-foreground mt-3 text-center">No food items found</p>
+      <p className="text-muted-foreground mt-3 text-center">
+        No food items found
+      </p>
     );
   }
 
@@ -50,7 +54,12 @@ export const FoodsGrid: React.FC<FoodsGridProps> = ({
     <div className="space-y-5">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 xs:gap-5">
         {foods?.map((food) => (
-          <FoodCard key={food.id} currentUser={currentUser} food={food} />
+          <FoodCard
+            key={food.id}
+            currentUser={currentUser}
+            food={food}
+            afterSignInUrl={afterSignInUrl}
+          />
         ))}
       </div>
       {hasNextPage ? (
@@ -64,5 +73,3 @@ export const FoodsGrid: React.FC<FoodsGridProps> = ({
     </div>
   );
 };
-
-

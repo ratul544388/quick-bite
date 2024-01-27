@@ -22,6 +22,7 @@ const Page = async ({
         initialFoods={initialFoods}
         currentUser={currentUser}
         category={category}
+        afterSignInUrl="/menu"
       />
     </MaxWidthWrapper>
   );

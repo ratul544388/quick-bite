@@ -42,7 +42,7 @@ export default async function Home({
               href="/menu"
               className={cn(buttonVariants(), "mt-5 rounded-full")}
             >
-              Explore Our Offerings
+              Explore Our Menu
             </Link>
             <Link
               href="/menu"

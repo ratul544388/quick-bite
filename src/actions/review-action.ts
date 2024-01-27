@@ -183,9 +183,39 @@ export async function deleteReview(reviewId: string) {
       return { error: "Unauthneticated" };
     }
 
-    await db.review.delete({
+    const review = await db.review.findUnique({
       where: {
         id: reviewId,
+      },
+      include: {
+        food: {
+          include: {
+            reviews: true,
+          },
+        },
+      },
+    });
+
+    if (!review) {
+      return { error: "Review not found" };
+    }
+
+    const newAvgRating =
+      (review.food.avgRating * review.food.reviews.length - review.star) /
+        review.food.reviews.length -
+      1;
+
+    await db.food.update({
+      where: {
+        id: review.foodId,
+      },
+      data: {
+        avgRating: newAvgRating,
+        reviews: {
+          delete: {
+            id: reviewId,
+          },
+        },
       },
     });
 

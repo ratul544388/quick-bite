@@ -15,7 +15,7 @@ interface StarProps {
 export const Star = ({
   value,
   onChange,
-  size = 32,
+  size = 24,
   className,
   viewOnly,
 }: StarProps) => {
