@@ -5,7 +5,7 @@ import React from "react";
 
 const ProfilePage = () => {
   return (
-    <MaxWidthWrapper className="bg-red-500">
+    <MaxWidthWrapper className="pb-10">
       <div className="space-y-5 mx-auto w-fit">
         <PageHeader
           navigations={[

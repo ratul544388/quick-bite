@@ -9,8 +9,12 @@ import { NavLinks } from "./nav-links";
 import { UserButton } from "./user-button";
 import { MobileSidebar } from "./mobile-sidebar";
 import { cn } from "@/lib/utils";
+import { Button, buttonVariants } from "../ui/button";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export const Header = ({ currentUser }: { currentUser: FullUser }) => {
+  const pathname = usePathname();
   return (
     <header className="sticky inset-x-0 top-0 border-b shadow-md z-50 w-full h-[70px]">
       <MaxWidthWrapper
@@ -29,13 +33,27 @@ export const Header = ({ currentUser }: { currentUser: FullUser }) => {
           </div>
         </div>
         <div className="flex items-center gap-5">
-          {!currentUser?.isAdmin && (
+          {currentUser && !currentUser?.isAdmin && (
             <>
               <HeaderSearch />
               <Cart currentUser={currentUser} />
             </>
           )}
-          <UserButton currentUser={currentUser} />
+          {currentUser ? (
+            <UserButton currentUser={currentUser} />
+          ) : (
+            <>
+              {pathname === "/sign-in" ? (
+                <Link href="/sign-up" className={buttonVariants()}>
+                  Sign up
+                </Link>
+              ) : (
+                <Link href="/sign-in" className={buttonVariants()}>
+                  Login
+                </Link>
+              )}
+            </>
+          )}
         </div>
       </MaxWidthWrapper>
     </header>

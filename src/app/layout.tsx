@@ -1,14 +1,15 @@
 import { Header } from "@/components/header/header";
 import { getCurrentUser } from "@/lib/current-user";
 import { cn } from "@/lib/utils";
+import { LoaderProvider } from "@/providers/loader-provider";
 import { ModalProvider } from "@/providers/modal-provider";
 import { QueryProvider } from "@/providers/query-provider";
 import ToastProvider from "@/providers/toast-provider";
 import { ClerkProvider } from "@clerk/nextjs";
+import { neobrutalism } from "@clerk/themes";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { LoaderProvider } from "@/providers/loader-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,11 @@ export default async function RootLayout({
 }) {
   const currentUser = await getCurrentUser();
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        baseTheme: neobrutalism,
+      }}
+    >
       <html lang="en">
         <body className={cn(inter.className, "bg-zinc-50")}>
           <QueryProvider>

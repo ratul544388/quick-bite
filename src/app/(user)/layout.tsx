@@ -12,5 +12,5 @@ export default async function UserLayout({
   if (user?.isAdmin) {
     redirect("/admin/dashboard");
   }
-  return <div className="pb-10">{children}</div>;
+  return <>{children}</>;
 }
