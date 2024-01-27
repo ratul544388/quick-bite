@@ -61,7 +61,7 @@ const FoodInfo: React.FC<FoodInfoProps> = ({ food, currentUser }) => {
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 pb-5">
       <div className="grid grid-cols-9 gap-x-8 gap-y-14 bg-background p-3 rounded-xl shadow-lg md:max-w-max max-w-[500px] mx-auto">
         <div className="grid grid-cols-9 gap-6 col-span-9 md:col-span-5">
           <Photo

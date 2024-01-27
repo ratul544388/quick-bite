@@ -145,9 +145,28 @@ export async function updateReview({
       };
     }
 
-    const newAvgRating =
-      (food.avgRating * food.reviews.length + values.star) /
-      (food.reviews.length + 1);
+
+    
+    const oldRating = await db.review
+    .findUnique({
+      where: {
+        id: reviewId,
+        foodId: food.id,
+      },
+    })
+    .then((res) => res?.star);
+    
+    if (!oldRating) {
+      return { error: "Your review wasn't found" };
+    }
+    
+    const ratingDifference = values.star - oldRating;
+    
+    const previousRatingSum = food.avgRating * food.reviews.length;
+
+    const newRatingSum = previousRatingSum + ratingDifference;
+
+    const newAvgRating = newRatingSum / food.reviews.length;
 
     await db.food.update({
       where: {
