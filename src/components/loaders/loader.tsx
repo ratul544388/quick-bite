@@ -2,7 +2,9 @@
 import { cn } from "@/lib/utils";
 import { PacmanLoader } from "react-spinners";
 
-const Loader = ({ className }: { className?: string }) => {
+import PulseSpinner from "react-spinners/PulseLoader";
+
+export const Loader = ({ className }: { className?: string }) => {
   return (
     <div
       className={cn(
@@ -10,9 +12,19 @@ const Loader = ({ className }: { className?: string }) => {
         className
       )}
     >
-      <PacmanLoader color="#E11D48" />
+      <PacmanLoader color="#E11D48" className="opacity-80" />
     </div>
   );
 };
 
-export default Loader;
+Loader.Pulse = function PulseLoader() {
+  return (
+    <div
+      className={cn(
+        "fixed z-50 bg-background/30 inset-0 flex items-center justify-center"
+      )}
+    >
+      <PulseSpinner color="#E11D48" />
+    </div>
+  );
+};

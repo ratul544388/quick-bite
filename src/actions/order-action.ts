@@ -22,17 +22,13 @@ export async function getOrders({
   const orders = await db.order.findMany({
     where: {
       ...(userId ? { userId } : {}),
-      ...(revenueType
-        ? {
-            status: "DELIVERED",
-          }
-        : {}),
       ...(revenueType === "TODAY"
         ? {
             deliveredAt: {
               gte: startOfDay(today),
               lte: endOfDay(today),
             },
+            status: "DELIVERED",
           }
         : revenueType === "THIS_MONTH"
         ? {
@@ -40,6 +36,11 @@ export async function getOrders({
               gte: startOfMonth(today),
               lte: endOfMonth(today),
             },
+            status: "DELIVERED",
+          }
+        : revenueType === "TOTAL"
+        ? {
+            status: "DELIVERED",
           }
         : {}),
     },

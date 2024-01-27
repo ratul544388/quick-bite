@@ -1,8 +1,10 @@
-import { getRevenue } from "@/actions/revenue-action";
+import { getGraphRevenue, getRevenue } from "@/actions/revenue-action";
+import { Overview } from "@/components/over-view";
 import { BadgeCent, DollarSign, Receipt } from "lucide-react";
 import React from "react";
 
 const dashboardPage = async () => {
+  const graphRevenue = await getGraphRevenue();
   const totalRevenue = await getRevenue({ type: "TOTAL" });
   const thisMonth = await getRevenue({ type: "THIS_MONTH" });
   const todaysRevenue = await getRevenue({ type: "TODAY" });
@@ -27,7 +29,7 @@ const dashboardPage = async () => {
   return (
     <div className="space-y-5">
       <h3 className="text-2xl font-bold">Admin Dashboard</h3>
-      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+      <section className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
         {revenueCards.map((item) => (
           <div
             key={item.label}
@@ -38,7 +40,8 @@ const dashboardPage = async () => {
             <h2 className="font-bold text-3xl text-primary">${item.value}</h2>
           </div>
         ))}
-      </div>
+      </section>
+      <Overview data={graphRevenue} />
     </div>
   );
 };
