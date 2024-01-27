@@ -111,8 +111,9 @@ const FoodInfo: React.FC<FoodInfoProps> = ({ food, currentUser }) => {
       <FoodSlider
         currentUser={currentUser}
         label="Similar cuisines"
-        queryKey={["similer-food"]}
+        queryKey={["similer-food", food.id]}
         category={food.category}
+        foodId={food.id}
       />
       <FoodReviews food={food} currentUser={currentUser} />
     </div>

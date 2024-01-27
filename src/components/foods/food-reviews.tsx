@@ -49,10 +49,10 @@ const FoodReviews: React.FC<FoodReviewsProps> = ({ food, currentUser }) => {
         <h1 className="text-2xl font-bold text-primary text-center">Reviews</h1>
         {hasPurchased && !userReview && <ReviewForm food={food} />}
       </div>
-      <section className="grid sm:grid-cols-2">
+      <section className="grid sm:grid-cols-2 gap-6">
         {food.reviews.map((review) => (
           <>
-            {editingId ? (
+            {editingId === review.id ? (
               <ReviewForm
                 food={food}
                 review={review}
@@ -61,7 +61,7 @@ const FoodReviews: React.FC<FoodReviewsProps> = ({ food, currentUser }) => {
             ) : (
               <div
                 key={review.id}
-                className="space-y-3 p-3 shadow-lg rounded-lg relative bg-background"
+                className="space-y-3 p-3 h-fit shadow-lg rounded-lg relative bg-background"
               >
                 {currentUser?.id === review.userId && (
                   <ActionDropdownMenu

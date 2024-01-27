@@ -94,9 +94,12 @@ export async function getFoods({
   const take = limit || 10;
   const foods = await db.food.findMany({
     where: {
-      ...(category
+      ...(category && foodId
         ? {
             category,
+            id: {
+              not: foodId,
+            },
           }
         : {}),
       ...(q

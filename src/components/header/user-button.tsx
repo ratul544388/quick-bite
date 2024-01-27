@@ -45,7 +45,7 @@ export function UserButton({ currentUser }: { currentUser: User }) {
           {!isAdmin && (
             <>
               <DropdownMenuItem
-                onClick={() => router.push(`/profile/${currentUser.id}`)}
+                onClick={() => router.push(`/profile`)}
               >
                 <User2 className="h-4 w-4" />
                 Profile

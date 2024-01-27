@@ -18,6 +18,7 @@ interface FoodSliderProps {
   type?: FoodType;
   queryKey: string[];
   category?: string;
+  foodId?: string;
 }
 
 export const FoodSlider = ({
@@ -26,11 +27,12 @@ export const FoodSlider = ({
   type,
   queryKey,
   category,
+  foodId,
 }: FoodSliderProps) => {
   const { data, isPending } = useQuery({
     queryKey: [queryKey],
     queryFn: async () => {
-      const res = await getFoods({ type, category });
+      const res = await getFoods({ type, category, foodId });
       return res;
     },
   });
@@ -78,10 +80,7 @@ export const FoodSlider = ({
         {data?.map((food) => (
           <div key={food.id} className="flex items-center">
             <SwiperSlide className="p-1.5">
-              <FoodCard
-                currentUser={currentUser}
-                food={food}
-              />
+              <FoodCard currentUser={currentUser} food={food} />
             </SwiperSlide>
           </div>
         ))}
