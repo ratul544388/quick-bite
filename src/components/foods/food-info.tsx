@@ -37,7 +37,7 @@ const FoodInfo: React.FC<FoodInfoProps> = ({ food, currentUser }) => {
     e.stopPropagation();
     e.preventDefault();
     if (!currentUser) {
-      return onOpen("AUTH_MODAL", { redirectUrl: `/menu/${food.id}` });
+      return onOpen("AUTH_MODAL", { redirectUrl: `menu/${food.slug}` });
     }
     startTransition(() => {
       addToCart({ foodId: food.id, quantity }).then(({ success, error }) => {
@@ -53,7 +53,7 @@ const FoodInfo: React.FC<FoodInfoProps> = ({ food, currentUser }) => {
 
   const onOrder = () => {
     if (!currentUser) {
-      return onOpen("AUTH_MODAL", { redirectUrl: `/menu/${food.id}` });
+      return onOpen("AUTH_MODAL", { redirectUrl: `menu/${food.slug}` });
     } else if (!currentUser.address || !currentUser.phone) {
       return onOpen("ADDRESS_MODAL");
     }

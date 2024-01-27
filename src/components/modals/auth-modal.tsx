@@ -34,7 +34,7 @@ export const AuthModal = () => {
         <div
           className="flex gap-5 mt-5"
           onClick={() => {
-            router.push(`/auth/sign-up?redirect_url=${redirectUrl || "/"}`);
+            router.push(`/sign-up?redirect_url=${redirectUrl || "/"}`);
             onClose();
           }}
         >
@@ -45,7 +45,7 @@ export const AuthModal = () => {
           <Button
             className="w-full"
             onClick={() => {
-              router.push(`/auth/sign-in?redirect_url=${redirectUrl || "/"}`);
+              router.push(`/sign-in?redirect_url=${redirectUrl || "/"}`);
               onClose();
             }}
           >

@@ -6,7 +6,7 @@ import ReactStars from "react-stars";
 
 interface StarProps {
   value: number;
-  onChange?: (value: number) => void;
+  onChange: (value: number) => void;
   size?: number;
   className?: string;
   viewOnly?: boolean;
@@ -21,7 +21,7 @@ export const Star = ({
 }: StarProps) => {
   useEffect(() => {
     if (value === 0) {
-      onChange?.(0.5);
+      onChange(0.5);
     }
   }, [value, onChange]);
 
