@@ -120,13 +120,6 @@ export async function getFoods({
             ],
           }
         : {}),
-      ...(foodId
-        ? {
-            id: {
-              not: foodId,
-            },
-          }
-        : {}),
     },
     orderBy: {
       ...(type === "POPULAR"
@@ -147,6 +140,9 @@ export async function getFoods({
       reviews: {
         include: {
           user: true,
+        },
+        orderBy: {
+          createdAt: "desc",
         },
       },
       cartItems: {
