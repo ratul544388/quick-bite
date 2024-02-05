@@ -1,14 +1,12 @@
 "use client";
 
-import { MaxWidthWrapper } from "./max-width-wrapper";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "./ui/button";
-import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { BsFacebook, BsInstagram, BsLinkedin, BsTwitter } from "react-icons/bs";
+import { buttonVariants } from "./ui/button";
 
 const Footer = () => {
-  const pathname = usePathname();
+
   const icons = [
     {
       icon: BsFacebook,
@@ -52,12 +50,16 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="flex mt-[150px] flex-col gap-3 items-center bg-zinc-900 pt-12">
+    <footer
+      className={cn(
+        "flex flex-col gap-3 items-center bg-zinc-900 pt-12",
+      )}
+    >
       <div className="flex gap-3">
         {icons.map((item, index) => (
           <Link
             key={index}
-            href={pathname}
+            href={"/"}
             className={cn(
               buttonVariants({
                 size: "icon",
@@ -73,7 +75,7 @@ const Footer = () => {
         {labels.map((item, index) => (
           <Link
             key={index}
-            href={pathname}
+            href={"/"}
             className="font-semibold hover:underline text-white text-sm"
           >
             {item.label}

@@ -1,14 +1,8 @@
-import { getFoods } from "@/actions/food-action";
 import { FoodSlider } from "@/components/foods/food-slider";
 import Footer from "@/components/footer";
 import { MaxWidthWrapper } from "@/components/max-width-wrapper";
-import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/current-user";
-import { cn } from "@/lib/utils";
-import { ArrowRight, Bike } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 export default async function Home({
@@ -23,37 +17,19 @@ export default async function Home({
   }
 
   return (
-    <div>
-      <MaxWidthWrapper className="flex flex-col gap-16 py-5">
-        <div className="flex lg:flex-row justify-between flex-col items-center gap-8 bg-gradient-to-r from-red-300/30 to-red-500/40 p-6 rounded-2xl">
-          <div className="flex flex-col items-center gap-3">
-            <Badge variant="secondary" className="bg-slate-200">
-              Quick delivery
-              <Bike className="h-4 w-4 ml-2 text-primary" />
-            </Badge>
-            <h1 className="font-extrabold leading-[60px] text-5xl text-center flex items-end text-primary">
-              Hungry? You are in the right place.
-            </h1>
-            <p className="text-center">
-              Order any meal at may time and we will deliver it directly to you
-              home.
-            </p>
-            <Link
-              href="/menu"
-              className={cn(buttonVariants(), "mt-5 rounded-full")}
-            >
-              Explore Our Menu
-            </Link>
-            <Link
-              href="/menu"
-              className="w-fit text-lg mt-10 cursor-pointer hover:underline font-semibold flex items-center gap-2"
-            >
-              Sepcials for lunch
-              <ArrowRight className="h-6 w-5 text-primary" />
-            </Link>
-          </div>
-          <Image src="/images/hero.png" alt="hero" width={500} height={500} />
-        </div>
+    <div className="h-full flex flex-col w-full">
+      <div className="w-full h-[50vh] absolute top-[70px] left-0">
+        <Image
+          src="/images/hero.jpg"
+          alt="hero"
+          fill
+          className="object-cover"
+        />
+      </div>
+      <div
+        className="flex flex-col gap-16 h-full w-full"
+        style={{ paddingTop: "calc(50vh + 70px)" }}
+      >
         <FoodSlider
           queryKey={["popular"]}
           label="Most Popular"
@@ -66,8 +42,7 @@ export default async function Home({
           currentUser={currentUser}
           type="TOP_RATED"
         />
-      </MaxWidthWrapper>
-      <Footer />
+      </div>
     </div>
   );
 }

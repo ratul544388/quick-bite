@@ -5,13 +5,9 @@ import { SignOutButton } from "@clerk/nextjs";
 import { User } from "@prisma/client";
 import { BookUser, ListOrdered, LogOut, User2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+
 import { UserAvatar } from "../user-avatar";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 export function UserButton({ currentUser }: { currentUser: User }) {
   const router = useRouter();
@@ -20,16 +16,16 @@ export function UserButton({ currentUser }: { currentUser: User }) {
   const { onOpen } = useModal();
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <Popover>
+      <PopoverTrigger asChild>
         <Button
           className="h-fit w-fit p-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0"
           variant="ghost"
         >
           <UserAvatar image={currentUser.imageUrl} alt={currentUser.name} />
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      </PopoverTrigger>
+      <PopoverContent align="end" className="py-2 px-0">
         <>
           <div className="flex items-center gap-2 px-3 py-2.5">
             <UserAvatar image={currentUser.imageUrl} alt={currentUser.name} />
@@ -42,34 +38,44 @@ export function UserButton({ currentUser }: { currentUser: User }) {
               </p>
             </div>
           </div>
+          <div
+            className="flex items-center gap-3 px-3 py-2 hover:bg-accent text-sm font-medium transition"
+            role="button"
+            onClick={() => router.push(`/profile`)}
+          >
+            <User2 className="h-4 w-4" />
+            Profile
+          </div>
           {!isAdmin && (
             <>
-              <DropdownMenuItem
-                onClick={() => router.push(`/profile`)}
+              <div
+                className="flex items-center gap-3 px-3 py-2 hover:bg-accent text-sm font-medium transition"
+                role="button"
+                onClick={() => router.push("/my-orders")}
               >
-                <User2 className="h-4 w-4" />
-                Profile
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => router.push("/my-orders")}>
                 <ListOrdered className="h-4 w-4" />
                 My orders
-              </DropdownMenuItem>
+              </div>
+              <div
+                className="flex items-center gap-3 px-3 py-2 hover:bg-accent text-sm font-medium transition"
+                role="button"
+                onClick={() => onOpen("ADDRESS_MODAL", { user: currentUser })}
+              >
+                <BookUser className="h-4 w-4" />
+                {currentUser.address
+                  ? "Manage shipping info"
+                  : "Add shipping info"}
+              </div>
             </>
           )}
-          <DropdownMenuItem
-            onClick={() => onOpen("ADDRESS_MODAL", { user: currentUser })}
-          >
-            <BookUser className="h-4 w-4" />
-            {currentUser.address ? "Manage shipping info" : "Add shipping info"}
-          </DropdownMenuItem>
           <SignOutButton>
-            <DropdownMenuItem>
+            <div className="flex items-center gap-3 px-3 py-2 hover:bg-accent text-sm font-medium transition">
               <LogOut className="h-4 w-4" />
               Logout
-            </DropdownMenuItem>
+            </div>
           </SignOutButton>
         </>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </PopoverContent>
+    </Popover>
   );
 }

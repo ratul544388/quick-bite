@@ -10,6 +10,9 @@ import { neobrutalism } from "@clerk/themes";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/footer";
+import { ThemeProvider } from "@/providers/theme-provider";
+import { SheetProvider } from "@/providers/sheet-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,16 +35,24 @@ export default async function RootLayout({
       }}
     >
       <html lang="en">
-        <body className={cn(inter.className, "bg-zinc-50")}>
-          <QueryProvider>
-            <ModalProvider />
-            <ToastProvider />
-            <LoaderProvider />
-            <main className="flex flex-col min-h-screen gap-5">
+        <body
+          className={cn(inter.className, "dark:bg-neutral-950 flex flex-col")}
+        >
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <QueryProvider>
               <Header currentUser={currentUser} />
-              <div className="flex-1 flex-grow flex flex-col">{children}</div>
-            </main>
-          </QueryProvider>
+              <main className="flex-1 mt-[80px]">{children}</main>
+              <ModalProvider />
+              <SheetProvider user={currentUser} />
+              <ToastProvider />
+              <LoaderProvider />
+            </QueryProvider>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

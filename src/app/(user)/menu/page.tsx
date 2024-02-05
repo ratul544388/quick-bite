@@ -16,7 +16,7 @@ const Page = async ({
   const initialFoods = await getInfinityFoods({ category });
 
   return (
-    <MaxWidthWrapper className="space-y-2 pb-10">
+    <div className="flex flex-col gap-2 h-full">
       <Categories category={category} />
       <FoodsGrid
         initialFoods={initialFoods}
@@ -24,7 +24,7 @@ const Page = async ({
         category={category}
         afterSignInUrl="/menu"
       />
-    </MaxWidthWrapper>
+    </div>
   );
 };
 

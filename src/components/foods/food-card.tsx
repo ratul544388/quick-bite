@@ -46,13 +46,13 @@ export const FoodCard = ({
       href={`/menu/${food.slug}`}
       onClick={() => router.push(`/menu/${food.id}`)}
       className={cn(
-        "bg-background text-sm shadow-md rounded-xl overflow-hidden flex flex-col gap-2 pb-2 border",
+        "dark:bg-neutral-900 text-sm rounded-xl overflow-hidden flex flex-col gap-2 pb-2",
         className
       )}
     >
-      <Photo photo={food.photo} className="min-w-full" />
+      <Photo photo={food.photo} className="min-w-full hover:scale-105 transition" />
       <div className="flex flex-col px-3 gap-1">
-        <h1 className="font-semibold capitalize mt-1 line-clamp-1">
+        <h1 className="font-semibold capitalize mt-1 line-clamp-1 text-foreground">
           {food.name}
         </h1>
         <Stars rating={food.avgRating} />

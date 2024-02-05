@@ -38,22 +38,19 @@ const Page = async ({ params }: { params: { slug: string } }) => {
   }
 
   return (
-    <div>
-      <MaxWidthWrapper className="space-y-5">
-        <PageHeader
-          navigations={[
-            {
-              label: "Menu",
-              href: "/menu",
-            },
-            {
-              label: `${food.name}`,
-            },
-          ]}
-        />
-        <FoodInfo food={food} currentUser={currentUser} />
-      </MaxWidthWrapper>
-      <Footer />
+    <div className="h-full flex flex-col gap-3">
+      <PageHeader
+        navigations={[
+          {
+            label: "Menu",
+            href: "/menu",
+          },
+          {
+            label: `${food.name}`,
+          },
+        ]}
+      />
+      <FoodInfo food={food} currentUser={currentUser} />
     </div>
   );
 };

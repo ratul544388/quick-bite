@@ -44,7 +44,7 @@ const FoodReviews: React.FC<FoodReviewsProps> = ({ food, currentUser }) => {
   );
 
   return (
-    <div className="flex flex-col gap-6 text-sm max-w-[1000px] mx-auto">
+    <div className="flex flex-col gap-6 text-sm max-w-[1000px] mx-auto w-full">
       <div className="bg-background rounded-xl shadow-lg p-3">
         <h1 className="text-2xl font-bold text-primary text-center">Reviews</h1>
         {hasPurchased && !userReview && <ReviewForm food={food} />}

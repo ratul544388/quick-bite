@@ -12,45 +12,66 @@ import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "../ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ThemeToggler } from "../theme-toggler";
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
+import { Menu, ShoppingCart } from "lucide-react";
+import { useSheet } from "@/hooks/use-sheet-store";
 
 export const Header = ({ currentUser }: { currentUser: FullUser }) => {
   const pathname = usePathname();
+  const { onOpen } = useSheet();
   return (
-    <header className="sticky inset-x-0 top-0 border-b shadow-md z-50 w-full h-[70px]">
+    <header className="fixed bg-background border-b inset-x-0 top-0 z-50 w-full h-[70px]">
       <MaxWidthWrapper
         className={cn(
-          "flex items-center justify-between h-full bg-background z-10",
+          "flex items-center justify-between h-full z-10",
           currentUser?.isAdmin && "max-w-screen-2xl"
         )}
       >
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-8">
             <div className="flex items-center gap-3">
-              <MobileSidebar currentUser={currentUser} />
+              <Button
+                onClick={() => onOpen("sidebar")}
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+              >
+                <Menu className="h-6 w-6 text-muted-foreground" />
+              </Button>
               <Logo className="flex" />
             </div>
             <NavLinks isAdmin={!!currentUser?.isAdmin} />
           </div>
         </div>
         <div className="flex items-center gap-5">
+          <HeaderSearch />
+          <ThemeToggler />
           {currentUser && !currentUser?.isAdmin && (
-            <>
-              <HeaderSearch />
-              <Cart currentUser={currentUser} />
-            </>
+            <Button
+              onClick={() => onOpen("cart")}
+              size="icon"
+              className="relative"
+              variant="ghost"
+            >
+              <ShoppingCart className="h-5 w-5" />
+              <div className="h-[18px] w-[18px] absolute top-0 right-0 rounded-full bg-primary text-white ">
+                {currentUser.cartItems.length || 0}
+              </div>
+            </Button>
           )}
           {currentUser ? (
             <UserButton currentUser={currentUser} />
           ) : (
             <>
               {pathname === "/sign-in" ? (
-                <Link href="/sign-up" className={buttonVariants()}>
-                  Sign up
-                </Link>
+                <Button asChild size="sm">
+                  <SignUpButton>Register</SignUpButton>
+                </Button>
               ) : (
-                <Link href="/sign-in" className={buttonVariants()}>
-                  Login
-                </Link>
+                <Button asChild size="sm">
+                  <SignInButton>Log in</SignInButton>
+                </Button>
               )}
             </>
           )}

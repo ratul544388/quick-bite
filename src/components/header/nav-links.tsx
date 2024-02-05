@@ -8,7 +8,7 @@ export const NavLinks = ({ isAdmin }: { isAdmin: boolean }) => {
   const routes = useRoutes(isAdmin);
   const pathname = usePathname();
   return (
-    <div className="sm:flex hidden items-center gap-6">
+    <div className="md:flex hidden items-center gap-6">
       {routes.map((route) => (
         <Link
           href={route.href}
