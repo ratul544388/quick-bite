@@ -17,17 +17,14 @@ export default async function Home({
 
   return (
     <div className="h-full flex flex-col w-full">
-      <Link
-        href="/menu?category=pizza"
-        className="w-full h-[50vh] absolute top-[70px] left-0"
-      >
+      <div className="w-full h-[50vh] absolute top-[70px] left-0">
         <Image
           src="/images/hero.jpg"
           alt="hero"
           fill
           className="object-cover"
         />
-      </Link>
+      </div>
       <div className="flex flex-col gap-5 h-full pt-[50vh] mt-3 w-full">
         <Link
           href="/menu"
@@ -35,7 +32,7 @@ export default async function Home({
         >
           Explore Our Menu
         </Link>
-        <div className="space-y-16">
+        <div className="space-y-16 mt-10">
           <FoodSlider
             queryKey={["popular"]}
             label="Most Popular"

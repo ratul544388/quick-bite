@@ -1,20 +1,12 @@
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-
-import { deleteFood } from "@/actions/food-action";
+import { cancelOrder } from "@/actions/order-action";
 import { useModal } from "@/hooks/use-modal-store";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
-import { cancelOrder } from "@/actions/order-action";
+import { Modal } from "./modal";
 
 export const CancelOrderModal = () => {
   const { isOpen, type, data, onClose } = useModal();
@@ -44,31 +36,22 @@ export const CancelOrderModal = () => {
   };
 
   return (
-    <Dialog
+    <Modal
       open={isOpen && type === "CANCEL_ORDER_MODAL"}
-      onOpenChange={() => onClose()}
+      title="Cancel Order"
+      description="Are you sure you want to Cancel the Order? This action cannot be
+      undone."
+      disabled={isPending}
+      className="max-w-[400px]"
     >
-      <DialogContent className="max-w-[350px]">
-        <DialogHeader>
-          <DialogTitle>Cancel Order</DialogTitle>
-          <DialogDescription>
-            Are you sure you want to Cancel the Order? This action cannot be
-            undone.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex justify-between">
-          <Button disabled={isPending} onClick={onClose} variant="ghost">
-            Close
-          </Button>
-          <Button
-            variant="destructive"
-            disabled={isPending}
-            onClick={onConfirm}
-          >
-            Confirm
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+      <div className="flex justify-between">
+        <Button disabled={isPending} onClick={onClose} variant="ghost">
+          Close
+        </Button>
+        <Button variant="destructive" disabled={isPending} onClick={onConfirm}>
+          Confirm
+        </Button>
+      </div>
+    </Modal>
   );
 };

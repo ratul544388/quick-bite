@@ -5,14 +5,6 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-
-import {
   Form,
   FormControl,
   FormField,
@@ -29,6 +21,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useTransition } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
+import { Modal } from "./modal";
 
 const AddressModal = () => {
   const { isOpen, type, data, onClose } = useModal();
@@ -68,70 +61,62 @@ const AddressModal = () => {
   }
 
   return (
-    <Dialog
+    <Modal
       open={isOpen && type === "ADDRESS_MODAL"}
-      onOpenChange={() => onClose()}
+      title={
+        hasAddress ? "Change shipping address" : "Add Your shipping address"
+      }
+      disabled={isPending}
+      description="Please provide your shipping address in full details including
+      District, street, zip code etc."
     >
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>
-            {hasAddress
-              ? "Change shipping address"
-              : "Add Your shipping address"}
-          </DialogTitle>
-          <DialogDescription>
-            Please provide your shipping address in full details including
-            District, street, zip code etc.
-          </DialogDescription>
-        </DialogHeader>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-8"
-          >
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Address</FormLabel>
-                  <FormControl>
-                    <Input
-                      autoFocus={false}
-                      isPending={isPending}
-                      placeholder="Enter your full address"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone</FormLabel>
-                  <FormControl>
-                    <Input
-                      isPending={isPending}
-                      type="number"
-                      placeholder="Enter your phone number"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button className="ml-auto" disabled={isPending}>
-              {hasAddress ? "Save" : "Create"}
-            </Button>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-8"
+        >
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address</FormLabel>
+                <FormControl>
+                  <Input
+                    autoFocus={false}
+                    isPending={isPending}
+                    placeholder="Enter your full address"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone</FormLabel>
+                <FormControl>
+                  <Input
+                    isPending={isPending}
+                    type="number"
+                    placeholder="Enter your phone number"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button className="ml-auto" disabled={isPending}>
+            {hasAddress ? "Save" : "Create"}
+          </Button>
+        </form>
+      </Form>
+    </Modal>
   );
 };
 

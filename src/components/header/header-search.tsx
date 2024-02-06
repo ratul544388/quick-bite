@@ -45,7 +45,7 @@ export const HeaderSearch = () => {
     }
   }, [debouncedValue]);
 
-  const handleSearch = (e: React.KeyboardEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.KeyboardEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (params.get("q") === value) {
       return setIsOpen(false);
@@ -56,37 +56,24 @@ export const HeaderSearch = () => {
     inputRef?.current?.blur();
   };
 
-  const handleClickSearchButton = () => {
-    if (value) {
-      router.push(`/menu/search?q=${value}`);
-      setIsOpen(false);
-    }
-  };
-
   useEffect(() => {
     if (isOpen && debouncedValue) {
       handleGetResults();
     }
   }, [debouncedValue, isOpen, handleGetResults]);
 
+  const Icon = isOpen ? X : Search;
+
   return (
     <>
-      <Search
-        onClick={() => setIsOpen(true)}
+      <Icon
+        onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "h-5 w-5 cursor-pointer text-muted-foreground hover:text-primary",
-          isOpen && "hidden"
-        )}
-      />
-      <X
-        onClick={() => setIsOpen(false)}
-        className={cn(
-          "h-5 w-5 cursor-pointer text-primary hidden",
-          isOpen && "block"
+          "h-5 w-5 cursor-pointer text-muted-foreground hover:text-primary"
         )}
       />
       <form
-        onSubmit={handleSearch}
+        onSubmit={handleSubmit}
         ref={containerRef}
         className={cn(
           "absolute flex flex-col gap-1 items-center left-1/2 -translate-x-1/2 top-[0px] opacity-0 pointer-events-none transition-all w-[320px] sm:w-[400px]",
@@ -100,12 +87,11 @@ export const HeaderSearch = () => {
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-        <Search
-          onClick={() => setIsOpen(true)}
-          className={cn(
-            "h-5 w-5 absolute right-2 top-2.5 cursor-pointer text-primary"
-          )}
-        />
+        <button>
+          <Search
+            className={cn("h-5 w-5 absolute right-2 top-2.5 text-primary")}
+          />
+        </button>
         <div
           ref={containerRef}
           className={cn(
@@ -113,15 +99,15 @@ export const HeaderSearch = () => {
             value && "py-2"
           )}
         >
-          <div
+          <button
             className={cn(
-              "flex items-center justify-between gap-3 hover:text-primary hover:bg-primary/5 cursor-pointer text-muted-foreground px-4 py-2",
+              "flex items-center justify-between gap-3 hover:text-primary hover:bg-primary/5 cursor-pointer text-muted-foreground px-4 py-3",
               !value && "hidden"
             )}
           >
             <div className="flex items-center gap-3">
               <h1 className=" text-sm">Search {value}</h1>
-              <Search onClick={handleClickSearchButton} className="h-4 w-4" />
+              <Search className="h-4 w-4" />
             </div>
             <PulseLoader
               loading={isLoading}
@@ -130,7 +116,7 @@ export const HeaderSearch = () => {
               aria-label="Loading Spinner"
               data-testid="loader"
             />
-          </div>
+          </button>
           {foods?.map((food: Food) => (
             <div
               onClick={() => {

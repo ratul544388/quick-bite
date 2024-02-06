@@ -1,19 +1,13 @@
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
 import { deleteFood } from "@/actions/food-action";
 import { useModal } from "@/hooks/use-modal-store";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
+import { Modal } from "./modal";
 
 export const DeleteFoodModal = () => {
   const { isOpen, type, data, onClose } = useModal();
@@ -43,31 +37,22 @@ export const DeleteFoodModal = () => {
   };
 
   return (
-    <Dialog
+    <Modal
       open={isOpen && type === "DELETE_FOOD_MODAL"}
-      onOpenChange={() => onClose()}
+      disabled={isPending}
+      title="Delete Food"
+      description="Are you sure you want to delete the Food? This action cannot be
+      undone."
+      className="max-w-[400px]"
     >
-      <DialogContent className="max-w-[350px]">
-        <DialogHeader>
-          <DialogTitle>Delete Food</DialogTitle>
-          <DialogDescription>
-            Are you sure you want to delete the Food? This action cannot be
-            undone.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex justify-between">
-          <Button disabled={isPending} onClick={onClose} variant="ghost">
-            Close
-          </Button>
-          <Button
-            variant="destructive"
-            disabled={isPending}
-            onClick={onConfirm}
-          >
-            Confirm
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+      <div className="flex justify-between">
+        <Button disabled={isPending} onClick={onClose} variant="ghost">
+          Close
+        </Button>
+        <Button variant="destructive" disabled={isPending} onClick={onConfirm}>
+          Confirm
+        </Button>
+      </div>
+    </Modal>
   );
 };

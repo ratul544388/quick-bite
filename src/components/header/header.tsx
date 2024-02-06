@@ -1,21 +1,22 @@
 "use client";
 
+import { useSheet } from "@/hooks/use-sheet-store";
+import { cn } from "@/lib/utils";
 import { FullUser } from "@/types";
+import {
+  SignInButton,
+  SignUpButton,
+  UserButton as ClerkUserButton,
+} from "@clerk/nextjs";
+import { Menu, ShoppingCart } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { MaxWidthWrapper } from "../max-width-wrapper";
-import { Cart } from "./cart";
+import { ThemeToggler } from "../theme-toggler";
+import { Button } from "../ui/button";
 import { HeaderSearch } from "./header-search";
 import { Logo } from "./logo";
 import { NavLinks } from "./nav-links";
 import { UserButton } from "./user-button";
-import { MobileSidebar } from "./mobile-sidebar";
-import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "../ui/button";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ThemeToggler } from "../theme-toggler";
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
-import { Menu, ShoppingCart } from "lucide-react";
-import { useSheet } from "@/hooks/use-sheet-store";
 
 export const Header = ({ currentUser }: { currentUser: FullUser }) => {
   const pathname = usePathname();
@@ -45,7 +46,7 @@ export const Header = ({ currentUser }: { currentUser: FullUser }) => {
           </div>
         </div>
         <div className="flex items-center gap-5">
-          <HeaderSearch />
+          {!currentUser?.isAdmin && <HeaderSearch />}
           <ThemeToggler />
           {currentUser && !currentUser?.isAdmin && (
             <Button
@@ -61,7 +62,13 @@ export const Header = ({ currentUser }: { currentUser: FullUser }) => {
             </Button>
           )}
           {currentUser ? (
-            <UserButton currentUser={currentUser} />
+            <>
+              {currentUser.isAdmin ? (
+                <ClerkUserButton />
+              ) : (
+                <UserButton currentUser={currentUser} />
+              )}
+            </>
           ) : (
             <>
               {pathname === "/sign-in" ? (

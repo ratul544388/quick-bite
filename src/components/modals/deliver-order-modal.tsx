@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
+import { Modal } from "./modal";
 
 export const DeliverOrderModal = () => {
   const { isOpen, type, data, onClose } = useModal();
@@ -43,30 +44,22 @@ export const DeliverOrderModal = () => {
   };
 
   return (
-    <Dialog
+    <Modal
       open={isOpen && type === "DELIVER_ORDER_MODAL"}
-      onOpenChange={() => onClose()}
+      title="Make it Delivered"
+      description="Are you sure you want to make the Order Delivered? This action
+      cannot be undone."
+      disabled={isPending}
+      className="max-w-[400px]"
     >
-      <DialogContent className="max-w-[350px]">
-        <DialogHeader>
-          <DialogTitle>Make it Delivered</DialogTitle>
-          <DialogDescription>
-            Are you sure you want to make the Order Delivered? This action
-            cannot be undone.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex justify-between">
-          <Button disabled={isPending} onClick={onClose} variant="ghost">
-            Close
-          </Button>
-          <Button
-            disabled={isPending}
-            onClick={onConfirm}
-          >
-            Confirm
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+      <div className="flex justify-between">
+        <Button disabled={isPending} onClick={onClose} variant="ghost">
+          Close
+        </Button>
+        <Button disabled={isPending} onClick={onConfirm}>
+          Confirm
+        </Button>
+      </div>
+    </Modal>
   );
 };

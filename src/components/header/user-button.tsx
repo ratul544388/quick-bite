@@ -13,7 +13,6 @@ import { useState } from "react";
 export function UserButton({ currentUser }: { currentUser: User }) {
   const router = useRouter();
 
-  const isAdmin = currentUser.isAdmin;
   const { onOpen } = useModal();
   const [open, setOpen] = useState(false);
 
@@ -51,34 +50,28 @@ export function UserButton({ currentUser }: { currentUser: User }) {
             <User2 className="h-4 w-4" />
             Profile
           </div>
-          {!isAdmin && (
-            <>
-              <div
-                className="flex items-center gap-3 px-3 py-2 hover:bg-accent text-sm font-medium transition"
-                role="button"
-                onClick={() => {
-                  router.push("/my-orders");
-                  setOpen(false);
-                }}
-              >
-                <ListOrdered className="h-4 w-4" />
-                My orders
-              </div>
-              <div
-                className="flex items-center gap-3 px-3 py-2 hover:bg-accent text-sm font-medium transition"
-                role="button"
-                onClick={() => {
-                  onOpen("ADDRESS_MODAL", { user: currentUser });
-                  setOpen(false);
-                }}
-              >
-                <BookUser className="h-4 w-4" />
-                {currentUser.address
-                  ? "Manage shipping info"
-                  : "Add shipping info"}
-              </div>
-            </>
-          )}
+          <div
+            className="flex items-center gap-3 px-3 py-2 hover:bg-accent text-sm font-medium transition"
+            role="button"
+            onClick={() => {
+              router.push("/my-orders");
+              setOpen(false);
+            }}
+          >
+            <ListOrdered className="h-4 w-4" />
+            My orders
+          </div>
+          <div
+            className="flex items-center gap-3 px-3 py-2 hover:bg-accent text-sm font-medium transition"
+            role="button"
+            onClick={() => {
+              onOpen("ADDRESS_MODAL", { user: currentUser });
+              setOpen(false);
+            }}
+          >
+            <BookUser className="h-4 w-4" />
+            {currentUser.address ? "Manage shipping info" : "Add shipping info"}
+          </div>
           <SignOutButton>
             <div
               onClick={() => setOpen(false)}

@@ -11,7 +11,7 @@ export type ModalType =
   | "EDIT_REVIEW_MODAL"
   | "DELIVER_ORDER_MODAL"
   | "AUTH_MODAL"
-  | "ORDER_MODAL";
+  | "ORDER_MODAL"
 
 interface ModalData {
   user?: User;

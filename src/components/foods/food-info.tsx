@@ -44,6 +44,7 @@ const FoodInfo: React.FC<FoodInfoProps> = ({ food, currentUser }) => {
         if (success) {
           toast.success(success);
           queryClient.invalidateQueries(["cart"] as InvalidateQueryFilters);
+          router.refresh();
         } else if (error) {
           toast.error(error);
         }
@@ -64,10 +65,7 @@ const FoodInfo: React.FC<FoodInfoProps> = ({ food, currentUser }) => {
     <div className="flex flex-col gap-8 pb-5">
       <div className="grid grid-cols-9 gap-x-8 gap-y-14 bg-background p-5 rounded-xl shadow-lg mx-auto border">
         <div className="grid grid-cols-9 gap-6 col-span-9 md:col-span-5">
-          <Photo
-            photo={food.photo}
-            className="col-span-9 lg:col-span-5"
-          />
+          <Photo photo={food.photo} className="col-span-9 lg:col-span-5" />
           <div className="flex flex-col gap-2 col-span-9 lg:col-span-4">
             <h1 className="text-lg font-bold">{food.name}</h1>
             <h1 className="font-bold text-lg text-primary select-none">
