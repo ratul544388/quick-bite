@@ -1,8 +1,7 @@
 import { FoodSlider } from "@/components/foods/food-slider";
-import Footer from "@/components/footer";
-import { MaxWidthWrapper } from "@/components/max-width-wrapper";
 import { getCurrentUser } from "@/lib/current-user";
 import Image from "next/image";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 export default async function Home({
@@ -18,30 +17,38 @@ export default async function Home({
 
   return (
     <div className="h-full flex flex-col w-full">
-      <div className="w-full h-[50vh] absolute top-[70px] left-0">
+      <Link
+        href="/menu?category=pizza"
+        className="w-full h-[50vh] absolute top-[70px] left-0"
+      >
         <Image
           src="/images/hero.jpg"
           alt="hero"
           fill
           className="object-cover"
         />
-      </div>
-      <div
-        className="flex flex-col gap-16 h-full w-full"
-        style={{ paddingTop: "calc(50vh + 70px)" }}
-      >
-        <FoodSlider
-          queryKey={["popular"]}
-          label="Most Popular"
-          currentUser={currentUser}
-          type="POPULAR"
-        />
-        <FoodSlider
-          queryKey={["top-rated"]}
-          label="Top Rated"
-          currentUser={currentUser}
-          type="TOP_RATED"
-        />
+      </Link>
+      <div className="flex flex-col gap-5 h-full pt-[50vh] mt-3 w-full">
+        <Link
+          href="/menu"
+          className="py-3 flex justify-center bg-[#FCF4E9] dark:bg-neutral-800 text-[#CC8119] font-bold text-lg rounded-lg"
+        >
+          Explore Our Menu
+        </Link>
+        <div className="space-y-16">
+          <FoodSlider
+            queryKey={["popular"]}
+            label="Most Popular"
+            currentUser={currentUser}
+            type="POPULAR"
+          />
+          <FoodSlider
+            queryKey={["top-rated"]}
+            label="Top Rated"
+            currentUser={currentUser}
+            type="TOP_RATED"
+          />
+        </div>
       </div>
     </div>
   );

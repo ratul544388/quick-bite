@@ -4,15 +4,13 @@ import { cn } from "@/lib/utils";
 import { LoaderProvider } from "@/providers/loader-provider";
 import { ModalProvider } from "@/providers/modal-provider";
 import { QueryProvider } from "@/providers/query-provider";
+import { SheetProvider } from "@/providers/sheet-provider";
+import { ThemeProvider } from "@/providers/theme-provider";
 import ToastProvider from "@/providers/toast-provider";
 import { ClerkProvider } from "@clerk/nextjs";
-import { neobrutalism } from "@clerk/themes";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Footer from "@/components/footer";
-import { ThemeProvider } from "@/providers/theme-provider";
-import { SheetProvider } from "@/providers/sheet-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,11 +27,7 @@ export default async function RootLayout({
 }) {
   const currentUser = await getCurrentUser();
   return (
-    <ClerkProvider
-      appearance={{
-        baseTheme: neobrutalism,
-      }}
-    >
+    <ClerkProvider>
       <html lang="en">
         <body
           className={cn(inter.className, "dark:bg-neutral-950 flex flex-col")}
@@ -46,7 +40,9 @@ export default async function RootLayout({
           >
             <QueryProvider>
               <Header currentUser={currentUser} />
-              <main className="flex-1 mt-[80px]">{children}</main>
+              <main className="flex-1 mt-[80px]">
+                {children}
+              </main>
               <ModalProvider />
               <SheetProvider user={currentUser} />
               <ToastProvider />

@@ -18,7 +18,7 @@ const MyOrderpage = async () => {
   const orders = await getOrders({ userId: user?.id });
 
   return (
-    <MaxWidthWrapper className="space-y-5 pb-10">
+    <div className="space-y-5">
       <PageHeader
         navigations={[
           {
@@ -35,7 +35,7 @@ const MyOrderpage = async () => {
           <OrderItem order={order} key={order.id} />
         ))}
       </section>
-    </MaxWidthWrapper>
+    </div>
   );
 };
 

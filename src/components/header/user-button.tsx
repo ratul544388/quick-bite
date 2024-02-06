@@ -8,15 +8,17 @@ import { useRouter } from "next/navigation";
 
 import { UserAvatar } from "../user-avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { useState } from "react";
 
 export function UserButton({ currentUser }: { currentUser: User }) {
   const router = useRouter();
 
   const isAdmin = currentUser.isAdmin;
   const { onOpen } = useModal();
+  const [open, setOpen] = useState(false);
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={() => setOpen(!open)}>
       <PopoverTrigger asChild>
         <Button
           className="h-fit w-fit p-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -41,7 +43,10 @@ export function UserButton({ currentUser }: { currentUser: User }) {
           <div
             className="flex items-center gap-3 px-3 py-2 hover:bg-accent text-sm font-medium transition"
             role="button"
-            onClick={() => router.push(`/profile`)}
+            onClick={() => {
+              router.push(`/profile`);
+              setOpen(false);
+            }}
           >
             <User2 className="h-4 w-4" />
             Profile
@@ -51,7 +56,10 @@ export function UserButton({ currentUser }: { currentUser: User }) {
               <div
                 className="flex items-center gap-3 px-3 py-2 hover:bg-accent text-sm font-medium transition"
                 role="button"
-                onClick={() => router.push("/my-orders")}
+                onClick={() => {
+                  router.push("/my-orders");
+                  setOpen(false);
+                }}
               >
                 <ListOrdered className="h-4 w-4" />
                 My orders
@@ -59,7 +67,10 @@ export function UserButton({ currentUser }: { currentUser: User }) {
               <div
                 className="flex items-center gap-3 px-3 py-2 hover:bg-accent text-sm font-medium transition"
                 role="button"
-                onClick={() => onOpen("ADDRESS_MODAL", { user: currentUser })}
+                onClick={() => {
+                  onOpen("ADDRESS_MODAL", { user: currentUser });
+                  setOpen(false);
+                }}
               >
                 <BookUser className="h-4 w-4" />
                 {currentUser.address
@@ -69,7 +80,11 @@ export function UserButton({ currentUser }: { currentUser: User }) {
             </>
           )}
           <SignOutButton>
-            <div className="flex items-center gap-3 px-3 py-2 hover:bg-accent text-sm font-medium transition">
+            <div
+              onClick={() => setOpen(false)}
+              role="button"
+              className="flex items-center gap-3 px-3 py-2 hover:bg-accent text-sm font-medium transition"
+            >
               <LogOut className="h-4 w-4" />
               Logout
             </div>

@@ -1,14 +1,9 @@
 "use client";
 
-import { LucideIcon, MoreVertical } from "lucide-react";
-import { Button } from "./ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { LucideIcon, MoreVertical } from "lucide-react";
+import { useState } from "react";
+import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 interface DropdownMenuProps {
@@ -28,8 +23,9 @@ export const ActionDropdownMenu: React.FC<DropdownMenuProps> = ({
   triggerIcon: TriggerIcon = MoreVertical,
   className,
 }) => {
+  const [open, setOpen] = useState(false);
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={() => setOpen(!open)}>
       <PopoverTrigger asChild className={cn(className)}>
         <Button
           size="icon"
@@ -45,7 +41,10 @@ export const ActionDropdownMenu: React.FC<DropdownMenuProps> = ({
             <div
               role="button"
               key={label}
-              onClick={onClick}
+              onClick={() => {
+                onClick();
+                setOpen(false);
+              }}
               className={cn(
                 "flex items-center gap-3 px-3 py-2 hover:bg-accent text-sm font-medium",
                 isDestructive &&
