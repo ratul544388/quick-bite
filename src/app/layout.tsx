@@ -27,10 +27,10 @@ export default async function RootLayout({
 }) {
   const currentUser = await getCurrentUser();
   return (
-    <ClerkProvider>
+    <ClerkProvider appearance={{ variables: { colorPrimary: "#E11D48" } }}>
       <html lang="en">
         <body
-          className={cn(inter.className, "dark:bg-neutral-950 flex flex-col")}
+          className={cn(inter.className, "bg-neutral-100 dark:bg-neutral-950 flex flex-col")}
         >
           <ThemeProvider
             attribute="class"
@@ -40,9 +40,7 @@ export default async function RootLayout({
           >
             <QueryProvider>
               <Header currentUser={currentUser} />
-              <main className="flex-1 mt-[80px]">
-                {children}
-              </main>
+              <main className="flex-1 mt-[80px]">{children}</main>
               <ModalProvider />
               <SheetProvider user={currentUser} />
               <ToastProvider />

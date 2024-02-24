@@ -7,19 +7,22 @@ import {
   SignInButton,
   SignUpButton,
   UserButton as ClerkUserButton,
+  UserButton,
+  useUser,
 } from "@clerk/nextjs";
 import { Menu, ShoppingCart } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { MaxWidthWrapper } from "../max-width-wrapper";
 import { ThemeToggler } from "../theme-toggler";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { HeaderSearch } from "./header-search";
 import { Logo } from "./logo";
 import { NavLinks } from "./nav-links";
-import { UserButton } from "./user-button";
+import Link from "next/link";
 
 export const Header = ({ currentUser }: { currentUser: FullUser }) => {
   const pathname = usePathname();
+  const { isSignedIn, isLoaded } = useUser();
   const { onOpen } = useSheet();
   return (
     <header className="fixed bg-background border-b inset-x-0 top-0 z-50 w-full h-[70px]">
@@ -61,26 +64,14 @@ export const Header = ({ currentUser }: { currentUser: FullUser }) => {
               </div>
             </Button>
           )}
-          {currentUser ? (
-            <>
-              {currentUser.isAdmin ? (
-                <ClerkUserButton />
-              ) : (
-                <UserButton currentUser={currentUser} />
-              )}
-            </>
-          ) : (
-            <>
-              {pathname === "/sign-in" ? (
-                <Button asChild size="sm">
-                  <SignUpButton>Register</SignUpButton>
-                </Button>
-              ) : (
-                <Button asChild size="sm">
-                  <SignInButton>Log in</SignInButton>
-                </Button>
-              )}
-            </>
+          {isSignedIn && <UserButton afterSignOutUrl="/" />}
+          {isLoaded && !isSignedIn && (
+            <Link
+              href={`/sign-in/redirect_url=${pathname}`}
+              className={buttonVariants({ size: "sm" })}
+            >
+              Log in
+            </Link>
           )}
         </div>
       </MaxWidthWrapper>

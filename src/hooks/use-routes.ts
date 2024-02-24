@@ -1,4 +1,11 @@
-import { Home, LayoutDashboard, ListOrdered, Utensils, UtensilsCrossed } from "lucide-react";
+import {
+  Home,
+  LayoutDashboard,
+  ListOrdered,
+  User2,
+  Utensils,
+  UtensilsCrossed,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export const useRoutes = (isAdmin?: boolean) => {
@@ -13,6 +20,11 @@ export const useRoutes = (isAdmin?: boolean) => {
       label: "Menu",
       href: "/menu",
       icon: Utensils,
+    },
+    {
+      label: "My orders",
+      href: "/my-orders",
+      icon: User2,
     },
   ];
 

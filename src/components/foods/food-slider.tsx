@@ -39,7 +39,7 @@ export const FoodSlider = ({
 
   if (isPending) {
     return (
-      <div className="space-y-3 w-full p-3 rounded-xl dark:bg-gray-950 overflow-hidden border">
+      <div className="space-y-3 w-full p-3 rounded-xl bg-background dark:bg-gray-950 overflow-hidden border">
         <Skeleton className="h-8 w-32" />
         <div className="flex gap-3">
           {Array.from({ length: 7 }).map((_, index) => (
@@ -51,7 +51,7 @@ export const FoodSlider = ({
   }
 
   return (
-    <div className="w-full space-y-2 overflow-hidden p-3 dark:bg-gray-950 rounded-xl shadow-lg border">
+    <div className="w-full space-y-2 overflow-hidden p-3 bg-background dark:bg-gray-950 rounded-xl shadow-lg border">
       <h3 className="text-2xl font-bold ml-2 text-primary">{label}</h3>
       <Swiper
         loop={true}

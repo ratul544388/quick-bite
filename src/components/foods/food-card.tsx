@@ -46,7 +46,7 @@ export const FoodCard = ({
       href={`/menu/${food.slug}`}
       onClick={() => router.push(`/menu/${food.id}`)}
       className={cn(
-        "dark:bg-neutral-900 text-sm rounded-xl overflow-hidden flex flex-col gap-2 pb-2",
+        "bg-background dark:bg-neutral-900 text-sm rounded-xl overflow-hidden flex flex-col gap-2 pb-2",
         className
       )}
     >
